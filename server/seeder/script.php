@@ -1,10 +1,10 @@
 <?php
 
-use App\Domain\ProductsAggregate\Brand;
-use App\Domain\ProductsAggregate\Category;
-use App\Domain\ProductsAggregate\Product;
+use App\Domain\Brand;
+use App\Domain\Category;
 use App\Domain\ProductsAggregate\AttributeSet;
 use App\Domain\ProductsAggregate\AttributeValue;
+use App\Domain\ProductsAggregate\Product;
 use App\Domain\ProductsAggregate\ProductAttributeValue;
 use App\Domain\ProductsAggregate\ProductImage;
 
@@ -29,6 +29,7 @@ foreach ($data['data']['products'] as $productData) {
         $brand = new Brand($productData['brand']);
         $entityManager->persist($brand);
     }
+    $entityManager->flush();
 
     $product = new Product(
         $productData['name'],
@@ -43,10 +44,14 @@ foreach ($data['data']['products'] as $productData) {
 
     $product->setBrand($brand);
 
+    $entityManager->persist($product);
+    $entityManager->flush();
+
     foreach ($productData['gallery'] as $index => $image) {
         $productImage = new ProductImage($image, $index, $product);
 //        $product->addImage($productImage);
         $entityManager->persist($productImage);
+        $entityManager->flush();
     }
 
     foreach ($productData['attributes'] as $attributeSetData) {
@@ -56,6 +61,7 @@ foreach ($data['data']['products'] as $productData) {
         if (!$attributeSet) {
             $attributeSet = new AttributeSet($attributeSetData['name'], $attributeSetData['type']);
             $entityManager->persist($attributeSet);
+            $entityManager->flush();
         }
 
         foreach ($attributeSetData['items'] as $attributeData) {
@@ -70,6 +76,7 @@ foreach ($data['data']['products'] as $productData) {
 
                 $attributeValue->setAttributeSet($attributeSet);
                 $entityManager->persist($attributeValue);
+                $entityManager->flush();
             }
 
             $productAttributeValue = new ProductAttributeValue();
@@ -77,10 +84,12 @@ foreach ($data['data']['products'] as $productData) {
             $productAttributeValue->setAttributeSet($attributeSet);
             $productAttributeValue->setAttributeValue($attributeValue);
             $entityManager->persist($productAttributeValue);
+            $entityManager->flush();
         }
     }
 
     $entityManager->persist($product);
+    $entityManager->flush();
 }
 
 $entityManager->flush();

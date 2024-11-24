@@ -3,7 +3,7 @@
 namespace App\Presentation;
 
 use App\Application\Exceptions\PublicException;
-use App\Application\GraphQL\ResolverFactory;
+use App\Application\Resolvers\ResolverFactory;
 use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Doctrine\Types;
@@ -26,7 +26,7 @@ class GraphQL
     {
         $this->entityManager = $entityManager;
         $this->types = new Types($this->entityManager);
-        $this->resolverFactory = new ResolverFactory($this->types, $this->entityManager);
+        $this->resolverFactory = new ResolverFactory($this->types);
     }
 
     public function handle()
@@ -37,14 +37,6 @@ class GraphQL
             $queryType = new ObjectType([
                 'name' => 'Query',
                 'fields' => [
-                    'echo' => [
-                        'type' => Type::string(),
-                        'args' => [
-                            'message' => ['type' => Type::string()],
-                        ],
-                        'resolve' =>
-                            static fn($rootValue, array $args): string => $rootValue['prefix'] . $args['message'],
-                    ],
                     'products' => fn() => $this->resolverFactory
                         ->getResolver('products')
                         ->getField(),
@@ -57,14 +49,9 @@ class GraphQL
             $mutationType = new ObjectType([
                 'name' => 'Mutation',
                 'fields' => [
-                    'sum' => [
-                        'type' => Type::int(),
-                        'args' => [
-                            'x' => ['type' => Type::int()],
-                            'y' => ['type' => Type::int()],
-                        ],
-                        'resolve' => static fn($calc, array $args): int => $args['x'] + $args['y'],
-                    ],
+//                    'product' => fn() => $this->resolverFactory
+//                        ->getResolver('product')
+//                        ->getMutation(),
                 ],
             ]);
 

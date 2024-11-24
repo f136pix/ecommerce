@@ -40,9 +40,14 @@ class ProductImage extends BaseEntity
     private int $position;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="images", cascade={"persist"})
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
-    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'images')]
+    #[ORM\ManyToOne(
+        targetEntity: Product::class,
+        cascade: ['persist'],
+        inversedBy: 'images'
+    ), ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id')]
     private Product $product;
 
     public function __construct(string $url, int $position, Product $product)

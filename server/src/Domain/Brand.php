@@ -1,34 +1,32 @@
 <?php
 
-namespace App\Domain\ProductsAggregate;
+namespace App\Domain;
 
-use App\Domain\BaseEntity;
+use App\Domain\ProductsAggregate\Product;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="categories")
+ * @ORM\Table(name="brands")
  * @ORM\InheritanceType("SINGLE_TABLE")
  */
-#[ORM\Entity, ORM\Table(name: 'categories'), ORM\InheritanceType('SINGLE_TABLE')]
-class Category extends BaseEntity
+#[ORM\Entity, ORM\Table(name: 'brands'), ORM\InheritanceType('SINGLE_TABLE')]
+class Brand extends BaseEntity
 {
-    /**
-     * @param string $name
-     */
     public function __construct(string $name)
     {
         $this->name = $name;
-    }
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     public function getProducts(): Collection
     {
         return $this->products;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
     /**
      * @ORM\Column(length=255)
@@ -37,8 +35,8 @@ class Category extends BaseEntity
     private string $name;
 
     /**
-     * @ORM\OneToMany(mappedBy="category", targetEntity=Product::class)
+     * @ORM\OneToMany(mappedBy="brand", targetEntity=Product::class)
      */
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
+    #[ORM\OneToMany(mappedBy: 'brand', targetEntity: Product::class)]
     private Collection $products;
 }

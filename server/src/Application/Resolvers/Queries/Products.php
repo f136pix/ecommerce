@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Application\GraphQL;
+namespace App\Application\Resolvers\Queries;
 
 use App\Application\Interfaces\GraphQLResolver;
 use App\Domain\ProductsAggregate\Product as ProductEntity;
-use Doctrine\ORM\EntityManagerInterface;
 use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\Type;
 
 class Products implements GraphQLResolver
 {
     private Types $types;
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(Types $types, EntityManagerInterface $entityManager)
+    public function __construct(Types $types)
     {
         $this->types = $types;
-        $this->entityManager = $entityManager;
     }
 
     public function getField(): array

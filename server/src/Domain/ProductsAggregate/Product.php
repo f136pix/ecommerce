@@ -3,6 +3,8 @@
 namespace App\Domain\ProductsAggregate;
 
 use App\Domain\BaseEntity;
+use App\Domain\Brand;
+use App\Domain\Category;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 

@@ -1,23 +1,20 @@
 <?php
 
-namespace App\Application\GraphQL;
+namespace App\Application\Resolvers;
 
-use App\Application\GraphQL\Product as ProductResolver;
-use App\Application\GraphQL\Products as ProductsResolver;
 use App\Application\Interfaces\GraphQLResolver;
-use Doctrine\ORM\EntityManager;
+use App\Application\Resolvers\Queries\Product as ProductResolver;
+use App\Application\Resolvers\Queries\Products as ProductsResolver;
 use GraphQL\Doctrine\Types;
 
 class ResolverFactory
 {
     private array $resolvers = [];
     private Types $types;
-    private EntityManager $entityManager;
 
-    public function __construct(Types $types, EntityManager $entityManager)
+    public function __construct(Types $types)
     {
         $this->types = $types;
-        $this->entityManager = $entityManager;
     }
 
     public function getResolver(string $name): GraphQLResolver
@@ -32,8 +29,8 @@ class ResolverFactory
     private function createResolver(string $name): Product|Products
     {
         return match ($name) {
-            'product' => new ProductResolver($this->types, $this->entityManager),
-            'products' => new ProductsResolver($this->types, $this->entityManager),
+            'product' => new ProductResolver($this->types),
+            'products' => new ProductsResolver($this->types),
             default => throw new \InvalidArgumentException("Unknown resolver: $name")
         };
     }
