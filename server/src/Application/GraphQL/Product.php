@@ -3,9 +3,9 @@
 namespace App\Application\GraphQL;
 
 use App\Application\Interfaces\GraphQLResolver;
-use App\Domain\Product as ProductEntity;
-use GraphQL\Doctrine\Types;
+use App\Domain\ProductsAggregate\Product as ProductEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\Type;
 
 class Product implements GraphQLResolver
@@ -22,7 +22,7 @@ class Product implements GraphQLResolver
     public function getField(): array
     {
         return [
-            'type' => Type::assertType($this->types->getOutput(ProductEntity::class)),
+            'type' => Type::nonNull($this->types->getOutput(ProductEntity::class)),
             'args' => [
                 'id' => $this->types->getId(ProductEntity::class),
             ],
@@ -32,6 +32,7 @@ class Product implements GraphQLResolver
 
     public function resolve($root, array $args)
     {
+//        return $this->entityManager->getRepository(ProductEntity::class)->find($args['id']);
         return $args['id']->getEntity();
     }
 }

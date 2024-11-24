@@ -17,14 +17,15 @@ use Throwable;
 
 class GraphQL
 {
-    private Types $types;
+//    private Types $types;
     private EntityManager $entityManager;
+    private Types $types;
     private ResolverFactory $resolverFactory;
 
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->types = new Types($entityManager);
+        $this->types = new Types($this->entityManager);
         $this->resolverFactory = new ResolverFactory($this->types, $this->entityManager);
     }
 

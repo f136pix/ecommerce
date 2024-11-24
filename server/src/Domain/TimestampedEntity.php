@@ -2,23 +2,27 @@
 
 namespace App\Domain;
 
+use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  */
-abstract class TimestampedEntity extends BaseEntity
+#[ORM\MappedSuperclass, ORM\HasLifecycleCallbacks]
+class TimestampedEntity extends BaseEntity
 {
     /**
      * @ORM\Column(type="datetime")
      */
-    protected DateTime $createdAt;
+    #[ORM\Column(type: 'datetime')]
+    public DateTime $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    protected DateTime $updatedAt;
+    #[ORM\Column(type: 'datetime')]
+    public DateTime $updatedAt;
 
     public function getCreatedAt(): DateTime
     {
@@ -43,6 +47,7 @@ abstract class TimestampedEntity extends BaseEntity
     /**
      * @ORM\PrePersist
      */
+    #[ORM\PrePersist]
     public function onPrePersist(): void
     {
         $this->createdAt = new DateTime();
@@ -52,6 +57,7 @@ abstract class TimestampedEntity extends BaseEntity
     /**
      * @ORM\PreUpdate
      */
+    #[ORM\PreUpdate]
     public function onPreUpdate(): void
     {
         $this->updatedAt = new DateTime();
