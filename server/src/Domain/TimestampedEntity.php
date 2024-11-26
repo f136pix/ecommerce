@@ -2,6 +2,7 @@
 
 namespace App\Domain;
 
+use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 
@@ -22,14 +23,14 @@ class TimestampedEntity extends BaseEntity
      * @ORM\Column(type="datetime")
      */
     #[ORM\Column(type: 'datetime')]
-    public DateTime $updatedAt;
+    public ?DateTime $updatedAt;
 
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt = new DateTime()): void
     {
         $this->createdAt = $createdAt;
     }
@@ -39,7 +40,7 @@ class TimestampedEntity extends BaseEntity
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(DateTime $updatedAt = new DateTime()): void
     {
         $this->updatedAt = $updatedAt;
     }

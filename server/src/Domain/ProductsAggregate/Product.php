@@ -5,6 +5,8 @@ namespace App\Domain\ProductsAggregate;
 use App\Domain\BaseEntity;
 use App\Domain\Brand;
 use App\Domain\Category;
+use App\Domain\ProductsAggregate\ProductAttributeValue;
+use App\Domain\ProductsAggregate\ProductImage;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -74,9 +76,6 @@ class Product extends BaseEntity
         $this->category = $category;
     }
 
-    /**
-     * @param Brand $brand
-     */
     public function setBrand(Brand $brand): void
     {
         $this->brand = $brand;

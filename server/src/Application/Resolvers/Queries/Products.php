@@ -45,8 +45,8 @@ class Products implements GraphQLResolver
             $args['sorting'] ?? []
         );
 
-        error_log($queryBuilder->getQuery()->getSQL() .
-            "\n" . json_encode($queryBuilder->getQuery()->getParameters()) . "\n");
+//        error_log($queryBuilder->getQuery()->getSQL() .
+//            "\n" . json_encode($queryBuilder->getQuery()->getParameters()) . "\n");
 
         return $queryBuilder->getQuery()->getResult();
     }

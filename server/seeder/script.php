@@ -1,12 +1,12 @@
 <?php
 
-use App\Domain\Brand;
-use App\Domain\Category;
+use App\Domain\OrdersAggregate\Brand;
+use App\Domain\OrdersAggregate\Category;
 use App\Domain\ProductsAggregate\AttributeSet;
 use App\Domain\ProductsAggregate\AttributeValue;
-use App\Domain\ProductsAggregate\Product;
 use App\Domain\ProductsAggregate\ProductAttributeValue;
 use App\Domain\ProductsAggregate\ProductImage;
+use App\Domain\ProductsAggregate\Product;
 
 $entityManager = require __DIR__ . '/../config/doctrine.php';
 

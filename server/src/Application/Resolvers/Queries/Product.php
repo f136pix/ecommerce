@@ -29,7 +29,6 @@ class Product implements GraphQLResolver
 
     public function resolve($root, array $args)
     {
-//        return $this->entityManager->getRepository(ProductEntity::class)->find($args['id']);
         return $args['id']->getEntity();
     }
 }

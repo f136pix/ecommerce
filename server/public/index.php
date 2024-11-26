@@ -1,14 +1,14 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../config/doctrine.php';
+require_once __DIR__ . '/../src/Infraestructure/Persistence/doctrine.php';
 
 use App\Presentation\GraphQL;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-$entityManager = require __DIR__ . '/../config/doctrine.php';
+$entityManager = require __DIR__ . '/../src/Infraestructure/Persistence/doctrine.php';
 
 $graphql = new GraphQL($entityManager);
 

@@ -4,6 +4,13 @@ namespace App\Presentation;
 
 use App\Application\Exceptions\PublicException;
 use App\Application\Resolvers\ResolverFactory;
+use App\Domain\OrdersAggregate\Order;
+use App\Domain\OrdersAggregate\OrderItem;
+use App\Domain\OrdersAggregate\OrderStatus;
+use App\Infraestructure\DependencyInjection\SimpleContainer;
+use App\Infraestructure\GraphQL\Types\DateTimeType;
+use App\Infraestructure\GraphQL\Types\OrderStatusType;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Doctrine\Types;
@@ -25,12 +32,21 @@ class GraphQL
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->types = new Types($this->entityManager);
+
+        $customTypes = new SimpleContainer([
+            'invokables' => [
+                DateTime::class => DateTimeType::class,
+                OrderStatus::class => OrderStatusType::class,
+            ],
+        ]);
+
+        $this->types = new Types($this->entityManager, $customTypes);
         $this->resolverFactory = new ResolverFactory($this->types);
     }
 
     public function handle()
     {
+
         try {
             GraphQLBase::setDefaultFieldResolver(new DefaultFieldResolver());
 
@@ -46,12 +62,17 @@ class GraphQL
                 ],
             ]);
 
+//            $orderInputType = $this->types->getInput(Order::class)->getFields();
+//            $orderInputType = $this->types->getOutput(OrderItem::class)->getFields();
+//            
+//            error_log(print_r($orderInputType, true));
+
             $mutationType = new ObjectType([
                 'name' => 'Mutation',
                 'fields' => [
-//                    'product' => fn() => $this->resolverFactory
-//                        ->getResolver('product')
-//                        ->getMutation(),
+                    'createOrder' => fn() => $this->resolverFactory
+                        ->getResolver('order')
+                        ->getField(),
                 ],
             ]);
 

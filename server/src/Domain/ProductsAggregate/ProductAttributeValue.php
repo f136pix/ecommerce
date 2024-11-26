@@ -3,6 +3,7 @@
 namespace App\Domain\ProductsAggregate;
 
 use App\Domain\BaseEntity;
+use App\Domain\ProductsAggregate\AttributeValue;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
