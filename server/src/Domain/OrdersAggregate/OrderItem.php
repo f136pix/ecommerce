@@ -4,6 +4,7 @@ namespace App\Domain\OrdersAggregate;
 
 use App\Domain\BaseEntity;
 use App\Domain\ProductsAggregate\ProductAttributeValue;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,11 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
 class OrderItem extends BaseEntity
 {
     public function __construct(
-        Order $order,
-        Collection $productAttributeValues
+        Order $order = null,
+        Collection $productAttributeValues = null
     ) {
         $this->order = $order;
-        $this->productAttributeValues = $productAttributeValues;
+        $this->productAttributeValues = $productAttributeValues ?: new ArrayCollection();
     }
 
     public function getOrder(): Order
@@ -31,6 +32,13 @@ class OrderItem extends BaseEntity
     {
         return $this->productAttributeValues;
     }
+
+
+    public function setOrder(Order $order): void
+    {
+        $this->order = $order;
+    }
+
 
     public function addProductAttributeValue(ProductAttributeValue $productAttributeValue): void
     {

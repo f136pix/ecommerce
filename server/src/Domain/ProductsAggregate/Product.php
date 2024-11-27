@@ -21,10 +21,9 @@ class Product extends BaseEntity
     public function __construct(
         string $name,
         string $description,
-        bool   $inStock,
-        float  $price,
-    )
-    {
+        bool $inStock,
+        float $price,
+    ) {
         $this->name = $name;
         $this->description = $description;
         $this->inStock = $inStock;

@@ -27,7 +27,7 @@ class Product implements GraphQLResolver
         ];
     }
 
-    public function resolve($root, array $args)
+    public function resolve($root, array $args, $context, $info = null)
     {
         return $args['id']->getEntity();
     }

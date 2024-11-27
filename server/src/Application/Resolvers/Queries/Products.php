@@ -18,9 +18,6 @@ class Products implements GraphQLResolver
 
     public function getField(): array
     {
-        error_log(Type::listOf($this->types->getOutput(ProductEntity::class)));
-
-
         return [
             'type' => Type::listOf($this->types->getOutput(ProductEntity::class)),
             'args' => [
@@ -37,7 +34,7 @@ class Products implements GraphQLResolver
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, $info = null)
     {
         $queryBuilder = $this->types->createFilteredQueryBuilder(
             ProductEntity::class,

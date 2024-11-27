@@ -11,7 +11,7 @@ interface GraphQLResolver
      * @param array $args
      * @return mixed
      */
-    public function resolve($root, array $args);
+    public function resolve($root, array $args, $context, $info);
 
     /**
      * Get the field configuration for GraphQL

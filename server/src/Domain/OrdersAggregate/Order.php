@@ -3,8 +3,10 @@
 namespace App\Domain\OrdersAggregate;
 
 use App\Domain\TimestampedEntity;
+use App\Infraestructure\GraphQL\Types\OrderStatusType;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use GraphQL\Doctrine\Attribute as API;
 
 /**
  * @ORM\Entity
@@ -14,12 +16,22 @@ use Doctrine\ORM\Mapping as ORM;
 class Order extends TimestampedEntity
 {
     public function __construct(
-        Collection $orderItems,
         OrderStatus $status = OrderStatus::PROCESSING
     ) {
         $this->status = $status;
-        $this->orderItems = $orderItems;
     }
+
+    /**
+     * @ORM\Column(length=255)
+     */
+    #[ORM\Column(length: 255)]
+    public OrderStatus $status = OrderStatus::PROCESSING;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="order")
+     */
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderItem::class)]
+    public Collection $orderItems;
 
     public function getStatus(): OrderStatus
     {
@@ -35,16 +47,4 @@ class Order extends TimestampedEntity
     {
         $this->orderItems->add($orderItem);
     }
-
-    /**
-     * @ORM\Column(length=255)
-     */
-    #[ORM\Column(length: 255)]
-    public OrderStatus $status;
-
-    /**
-     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="order")
-     */
-    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderItem::class)]
-    public Collection $orderItems;
 }

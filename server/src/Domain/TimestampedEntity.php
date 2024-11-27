@@ -2,7 +2,6 @@
 
 namespace App\Domain;
 
-use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 

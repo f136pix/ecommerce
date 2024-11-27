@@ -4,7 +4,6 @@ namespace App\Presentation;
 
 use App\Application\Exceptions\PublicException;
 use App\Application\Resolvers\ResolverFactory;
-use App\Domain\OrdersAggregate\Order;
 use App\Domain\OrdersAggregate\OrderItem;
 use App\Domain\OrdersAggregate\OrderStatus;
 use App\Infraestructure\DependencyInjection\SimpleContainer;
@@ -16,7 +15,6 @@ use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Doctrine\Types;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
 use RuntimeException;
@@ -61,11 +59,6 @@ class GraphQL
                         ->getField()
                 ],
             ]);
-
-//            $orderInputType = $this->types->getInput(Order::class)->getFields();
-//            $orderInputType = $this->types->getOutput(OrderItem::class)->getFields();
-//            
-//            error_log(print_r($orderInputType, true));
 
             $mutationType = new ObjectType([
                 'name' => 'Mutation',

@@ -3,7 +3,7 @@
 namespace App\Application\Resolvers;
 
 use App\Application\Interfaces\GraphQLResolver;
-use App\Application\Resolvers\Mutations\Order;
+use App\Application\Resolvers\Mutations\Order as OrderMutator;
 use App\Application\Resolvers\Queries\Product as ProductResolver;
 use App\Application\Resolvers\Queries\Products as ProductsResolver;
 use GraphQL\Doctrine\Types;
@@ -32,7 +32,7 @@ class ResolverFactory
         return match ($name) {
             'product' => new ProductResolver($this->types),
             'products' => new ProductsResolver($this->types),
-            'order' => new Order($this->types),
+            'order' => new OrderMutator($this->types),
             default => throw new \InvalidArgumentException("Unknown resolver: $name")
         };
     }
