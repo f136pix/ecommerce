@@ -1,8 +1,12 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/Infraestructure/Persistence/doctrine.php';
 
+use App\Application\Exceptions\PublicException;
 use App\Presentation\GraphQL;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
@@ -11,6 +15,15 @@ $dotenv->load();
 $entityManager = require __DIR__ . '/../src/Infraestructure/Persistence/doctrine.php';
 
 $graphql = new GraphQL($entityManager);
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) use ($graphql) {
     $r->post('/graphql', [$graphql, 'handle']);
@@ -44,6 +57,7 @@ try {
             break;
     }
 } catch (Exception $e) {
+    error_log($e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => 'Internal Server Error', 'message' => $e->getMessage()]);
 }

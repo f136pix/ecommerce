@@ -16,19 +16,19 @@ use GraphQL\Type\Definition\ScalarType;
 //            'values' => [
 //                'PENDING' => [
 //                    'value' => OrderStatus::PENDING,
-//                    'description' => 'Order is pending'
+//                    'description' => 'CreateOrderResolver is pending'
 //                ],
 //                'PROCESSING' => [
 //                    'value' => OrderStatus::PROCESSING,
-//                    'description' => 'Order is being processed'
+//                    'description' => 'CreateOrderResolver is being processed'
 //                ],
 //                'COMPLETED' => [
 //                    'value' => OrderStatus::COMPLETED,
-//                    'description' => 'Order has been completed'
+//                    'description' => 'CreateOrderResolver has been completed'
 //                ],
 //                'CANCELLED' => [
 //                    'value' => OrderStatus::CANCELLED,
-//                    'description' => 'Order has been cancelled'
+//                    'description' => 'CreateOrderResolver has been cancelled'
 //                ]
 //            ]
 //        ];
@@ -58,7 +58,7 @@ use GraphQL\Type\Definition\ScalarType;
 
 class OrderStatusType extends ScalarType
 {
-    public $name = 'OrderStatus';
+    public string $name = 'OrderStatus';
 
     public function serialize($value)
     {

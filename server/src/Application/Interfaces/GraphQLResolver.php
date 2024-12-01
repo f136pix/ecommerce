@@ -12,11 +12,4 @@ interface GraphQLResolver
      * @return mixed
      */
     public function resolve($root, array $args, $context, $info);
-
-    /**
-     * Get the field configuration for GraphQL
-     *
-     * @return array
-     */
-    public function getField(): array;
 }

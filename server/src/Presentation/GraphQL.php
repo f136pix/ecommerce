@@ -3,33 +3,35 @@
 namespace App\Presentation;
 
 use App\Application\Exceptions\PublicException;
+use App\Application\Interfaces\GraphQLResolver;
 use App\Application\Resolvers\ResolverFactory;
-use App\Domain\OrdersAggregate\OrderItem;
 use App\Domain\OrdersAggregate\OrderStatus;
 use App\Infraestructure\DependencyInjection\SimpleContainer;
+use App\Infraestructure\GraphQL\GraphQLSchemaBuilder;
 use App\Infraestructure\GraphQL\Types\DateTimeType;
 use App\Infraestructure\GraphQL\Types\OrderStatusType;
+use App\Presentation\Contracts\OrdersContract;
+use App\Presentation\Contracts\ProductsContracts;
 use DateTime;
 use Doctrine\ORM\EntityManager;
-use GraphQL\Doctrine\DefaultFieldResolver;
-use GraphQL\Doctrine\Types;
 use GraphQL\GraphQL as GraphQLBase;
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Schema;
-use GraphQL\Type\SchemaConfig;
+use GraphQL\Type\Definition\Type;
 use RuntimeException;
 use Throwable;
 
+require_once __DIR__ . '/ErrorHandler.php';
+
+
 class GraphQL
 {
-//    private Types $types;
     private EntityManager $entityManager;
-    private Types $types;
+    private GraphQLResolver $productsResolver;
     private ResolverFactory $resolverFactory;
 
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+        $this->resolverFactory = new ResolverFactory($entityManager);
 
         $customTypes = new SimpleContainer([
             'invokables' => [
@@ -37,43 +39,32 @@ class GraphQL
                 OrderStatus::class => OrderStatusType::class,
             ],
         ]);
-
-        $this->types = new Types($this->entityManager, $customTypes);
-        $this->resolverFactory = new ResolverFactory($this->types);
     }
 
     public function handle()
     {
 
         try {
-            GraphQLBase::setDefaultFieldResolver(new DefaultFieldResolver());
+            $schemaBuilder = new GraphQLSchemaBuilder();
+            $schemaBuilder
+                ->addQueryField('products', [
+                    'type' => Type::listOf(Type::nonNull(ProductsContracts::productType())),
+                    'args' => ['filter' => ProductsContracts::productFilterInput()],
+                    'resolve' => [$this->resolverFactory->getResolver('products'), 'resolve']
+                ])
+                ->addQueryField('product', [
+                    'type' => Type::nonNull(ProductsContracts::productType()),
+                    'args' => ['id' => Type::nonNull(Type::id())],
+                    'resolve' => [$this->resolverFactory->getResolver('product'), 'resolve']
+                ])
+                ->addMutationField('createOrder', [
+                    'type' => Type::nonNull(OrdersContract::orderType()),
+                    'args' => ['input' => Type::nonNull(OrdersContract::createOrderInput())],
+                    'resolve' => [$this->resolverFactory->getResolver('createOrder'), 'resolve']
+                ]);
 
-            $queryType = new ObjectType([
-                'name' => 'Query',
-                'fields' => [
-                    'products' => fn() => $this->resolverFactory
-                        ->getResolver('products')
-                        ->getField(),
-                    'product' => fn() => $this->resolverFactory
-                        ->getResolver('product')
-                        ->getField()
-                ],
-            ]);
 
-            $mutationType = new ObjectType([
-                'name' => 'Mutation',
-                'fields' => [
-                    'createOrder' => fn() => $this->resolverFactory
-                        ->getResolver('order')
-                        ->getField(),
-                ],
-            ]);
-
-            $schema = new Schema(
-                (new SchemaConfig())
-                    ->setQuery($queryType)
-                    ->setMutation($mutationType)
-            );
+            $schema = $schemaBuilder->build();
 
             $rawInput = file_get_contents('php://input');
             if ($rawInput === false) {
@@ -84,27 +75,19 @@ class GraphQL
             $query = $input['query'];
             $variableValues = $input['variables'] ?? null;
             $rootValue = ['prefix' => 'You said: '];
-            $result = GraphQLBase::executeQuery($schema, $query, $rootValue, null, $variableValues);
+            $result = GraphQLBase::executeQuery($schema, $query, $rootValue, null, $variableValues)
+                ->setErrorFormatter('customErrorFormatter')
+                ->setErrorsHandler('customErrorHandler');
             $output = $result->toArray();
-            // echo $queryType['fields']['products']['type'];
         } catch (Throwable $e) {
-            if ($e instanceof PublicException) {
-                $output = [
-                    'error' => [
-                        'message' => $e->getMessage(),
-                    ],
-                ];
-            } else {
-                http_response_code(500);
-                $output = [
-                    'error' => [
-                        'message' => 'An error occurred, please try again later',
-                    ],
-                ];
-            }
-            error_log($e->getMessage() . PHP_EOL . $e->getTraceAsString());
+            http_response_code(500);
+            $output = [
+                'error' => [
+                    'message' => 'An error occurred, please try again later',
+                ],
+            ];
         }
-
+        error_log(json_encode($output));
         header('Content-Type: application/json; charset=UTF-8');
         return json_encode($output);
     }

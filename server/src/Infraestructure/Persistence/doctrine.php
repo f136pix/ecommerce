@@ -9,7 +9,8 @@ use Doctrine\ORM\ORMSetup;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../..');
 $dotenv->load();
 
-$config = ORMSetup::createAttributeMetadataConfiguration(
+
+$config = ORMSetup::createAnnotationMetadataConfiguration(
     paths: array(__DIR__ . "/../../../src"),
     isDevMode: true,
 );

@@ -3,19 +3,23 @@
 namespace App\Application\Resolvers;
 
 use App\Application\Interfaces\GraphQLResolver;
-use App\Application\Resolvers\Mutations\Order as OrderMutator;
-use App\Application\Resolvers\Queries\Product as ProductResolver;
-use App\Application\Resolvers\Queries\Products as ProductsResolver;
-use GraphQL\Doctrine\Types;
+use App\Application\Resolvers\Mutations\CreateOrderResolver;
+use App\Application\Resolvers\Mutations\CreateOrderResolver as OrderMutator;
+use App\Application\Resolvers\Queries\GetProductAttributesResolver;
+use App\Application\Resolvers\Queries\GetProductResolver;
+use App\Application\Resolvers\Queries\GetProductsResolver;
+use Doctrine\ORM\EntityManager;
+use InvalidArgumentException;
 
 class ResolverFactory
 {
     private array $resolvers = [];
-    private Types $types;
 
-    public function __construct(Types $types)
+    private EntityManager $entityManager;
+
+    public function __construct(EntityManager $entityManager)
     {
-        $this->types = $types;
+        $this->entityManager = $entityManager;
     }
 
     public function getResolver(string $name): GraphQLResolver
@@ -30,10 +34,11 @@ class ResolverFactory
     private function createResolver(string $name): GraphQLResolver
     {
         return match ($name) {
-            'product' => new ProductResolver($this->types),
-            'products' => new ProductsResolver($this->types),
-            'order' => new OrderMutator($this->types),
-            default => throw new \InvalidArgumentException("Unknown resolver: $name")
+            'product' => new GetProductResolver($this->entityManager),
+            'products' => new GetProductsResolver($this->entityManager),
+            'productAttributes' => new GetProductAttributesResolver($this->entityManager),
+            'createOrder' => new CreateOrderResolver($this->entityManager),
+            default => throw new InvalidArgumentException("Unknown resolver: $name")
         };
     }
 }

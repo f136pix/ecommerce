@@ -7,7 +7,7 @@ use GraphQL\Type\Definition\ScalarType;
 
 class DateTimeType extends ScalarType
 {
-    public $name = 'DateTime';
+    public string $name = 'DateTime';
 
     public function serialize($value)
     {
