@@ -2,20 +2,26 @@ import {ComponentType, useEffect} from "react";
 import HomePage from "./HomePage.tsx";
 import {useHomeStore} from "./useHomeStore.tsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {Product} from "../../types/product.ts";
+import {Attribute, Product} from "../../types/product.ts";
 import {useHeaderStore} from "../_layouts/Header/useHeaderStore.tsx";
+import ProductService from "../../services/productService.ts";
+import {useCart} from "react-use-cart";
+import {toast, ToastContainer} from "react-toastify";
+
 
 export interface HomeProps {
     category: string;
-    products: Product[]
+    products: Product[];
+    navigate: (url: string) => void;
+    addToCart: (product: Product) => void;
 }
 
 const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) => {
     return (props: P) => {
         const {category} = useParams<{ category: string }>();
-        const {categories} = useHeaderStore();
         const navigate = useNavigate();
-
+        const {addItem, items} = useCart();
+        const {categories} = useHeaderStore();
         const {products, fetchProducts, isLoading} = useHomeStore();
 
         useEffect(() => {
@@ -34,9 +40,42 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
             }, [category]
         );
 
+        const HandleQuickAdd = async (product: Product) => {
+            try {
+                const fetchedProduct = await ProductService.fetchProductById(product.id, ["id", "name", "attributes { name values { id } } "]);
+
+                const productAttributeValueIds = fetchedProduct.attributes.map((attribute: Attribute) => {
+                    return attribute.values[0].id;
+                });
+
+                const concatenatedId = productAttributeValueIds.join('-');
+
+                const finalProduct = {
+                    id: concatenatedId,
+                    name: product.name,
+                    price: product.price,
+                    amount: 1,
+                    productAttributeValueIds: productAttributeValueIds
+                };
+
+                addItem(finalProduct, 1);
+                toast.success("Item added successfully to the cart")
+            } catch (error) {
+                toast.error("An error occurred while adding the product to the cart")
+            } finally {
+                console.log(items);
+            }
+        };
+
         if (isLoading) return <div></div>
 
-        return <Component {...props} category={category!} products={products}/>;
+        return (
+            <>
+                <Component {...props} category={category!} products={products} navigate={navigate}
+                           addToCart={HandleQuickAdd}/>
+                <ToastContainer position={"bottom-center"}/>
+            </>
+        )
     };
 };
 

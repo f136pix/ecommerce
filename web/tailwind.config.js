@@ -12,6 +12,7 @@ export default {
         'primary-bg': '#ffffff',
         'secondary-bg': '#5ECE7B',
         'inactive-bg' : '#FBFBFB',
+        'grey-bg': '#DBDDDD',
       },
       fontFamily: {
         'primary': ['Inter', 'sans-serif'],

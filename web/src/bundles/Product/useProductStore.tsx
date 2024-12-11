@@ -1,16 +1,16 @@
 import {create} from "zustand";
 import ProductService from "../../services/productService.ts";
-import {Product} from "../../types/product.ts";
+import {Image, Product} from "../../types/product.ts";
 
 export interface IProductStore {
     product: Product | null;
     isLoading: boolean;
-    currentImage: string | null;
+    currentImage: Image | null;
     setLoading: (isLoading: boolean) => void;
     setProduct: (product: Product) => void;
-    setCurrentImage: (currentImage: string) => void;
+    setCurrentImage: (currentImage: Image) => void;
     fetchProduct: (id: string) => void;
-    addProductToCart: (product: Product) => void;
+    // addProductToCart: (product: Product) => void;
 }
 
 const useProductStore = create<IProductStore>((set) => ({
@@ -19,13 +19,15 @@ const useProductStore = create<IProductStore>((set) => ({
     currentImage: null,
     setLoading: (isLoading: boolean) => set({isLoading}),
     setProduct: (product: Product) => set({product}),
-    setCurrentImage: (currentImage: string) => set({currentImage}),
+    setCurrentImage: (currentImage: Image) => set({currentImage}),
 
     fetchProduct: async (id: string) => {
         try {
             set({isLoading: true});
+            console.log(id)
             const response = await ProductService.fetchProductById(id);
             set({product: response});
+            set({currentImage: response?.images[0]});
         } catch (error: any) {
             console.error(error.toString());
         } finally {

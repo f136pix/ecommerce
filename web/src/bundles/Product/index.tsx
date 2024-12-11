@@ -13,10 +13,12 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
         const {id} = useParams<{ id: string }>();
 
         useEffect(() => {
+            if (!id) return;
             if(id) store.fetchProduct(id);
+            console.log(store.product)
         }, [id]);
 
-        if (store.isLoading || store?.product || !store) return <div></div>
+    if (store.isLoading || !store?.product ) return <div></div>
 
         return <Component {...props} productStore={store}/>;
     };

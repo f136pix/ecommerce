@@ -7,16 +7,19 @@ export type Product = {
     category: {
         name: string;
     };
-    attributes: {
-        name: string;
-        values: {
-            id: string;
-            value: string;
-        }[];
-    }[];
+    attributes: Attribute[]
 };
 
 export type Image = {
     id: string;
     url: string;
 }
+
+export type Attribute = {
+    name: "Capacity | Size" | "Color" | string;
+    values: {
+        id: string;
+        value: string;
+    }[];
+}; 
+ 

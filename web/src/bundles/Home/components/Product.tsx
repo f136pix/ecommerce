@@ -3,19 +3,22 @@ import {Product as productType} from "../../../types/product.ts";
 import AddToCartIcon from "../../../assets/icons/AddCartIcon.png"
 
 type IProductProps = {
-    product: productType
+    product: productType,
+    addToCart: (product: productType) => void,
+    navigate: (url: string) => void
 }
 
 class Product extends Component<IProductProps> {
     render() {
-        const {product} = this.props;
+        const {product, addToCart, navigate} = this.props;
 
         const isOutOfStock = !product.inStock;
 
         return (
             <div
-                className={`bg-white overflow-hidden p-4 cursor-pointer hover:shadow-2xl transition-all group`}>
-                <div className="relative">
+                className={`bg-white overflow-hidden p-4 hover:shadow-2xl transition-all group`}>
+                <div className="relative cursor-pointer"
+                     onClick={() => navigate(`/product/${product.id}`)}>
                     <img src={product?.images[0]?.url} alt={"image " + product.name}
                          className="w-full h-72 object-cover object-top"/>
                     {isOutOfStock && (
@@ -27,10 +30,12 @@ class Product extends Component<IProductProps> {
                 <div className="py-4">
                     <div className={"flex justify-between"}>
                         <p className="text-primary font-normal">{product?.name}</p>
-                        {!isOutOfStock && <div className={"h-0 z-50"}>
+                        {!isOutOfStock && <div className={"z-50"}>
                             <img src={AddToCartIcon}
-                                 className={"hidden group-hover:flex text-tertiary -mt-10 mr-4 h-12 z-50"}
-                                 alt={"cart-icon"}>
+                                 className={"hidden group-hover:flex text-tertiary -mt-10 mr-4 h-12 z-50 cursor-pointer"}
+                                 alt={"cart-icon"}
+                                 onClick={() => addToCart(product)}
+                            >
                             </img>
                         </div>}
                     </div>
