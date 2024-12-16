@@ -2,11 +2,12 @@ import {ComponentType, useEffect} from "react";
 import HomePage from "./HomePage.tsx";
 import {useHomeStore} from "./useHomeStore.tsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {Attribute, Product} from "../../types/product.ts";
+import {Attribute, CartItem, Product} from "../../types/product.ts";
 import {useHeaderStore} from "../_layouts/Header/useHeaderStore.tsx";
 import ProductService from "../../services/productService.ts";
 import {useCart} from "react-use-cart";
 import {toast, ToastContainer} from "react-toastify";
+import {concatenateId} from "../../utils";
 
 
 export interface HomeProps {
@@ -42,20 +43,21 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
 
         const HandleQuickAdd = async (product: Product) => {
             try {
-                const fetchedProduct = await ProductService.fetchProductById(product.id, ["id", "name", "attributes { name values { id } } "]);
+                const fetchedProduct = await ProductService.fetchProductById(product.id, ["id", "name", "images { url } ", "attributes { name  values { id, displayValue, value } }"]);
 
                 const productAttributeValueIds = fetchedProduct.attributes.map((attribute: Attribute) => {
                     return attribute.values[0].id;
                 });
 
-                const concatenatedId = productAttributeValueIds.join('-');
+                const concatenatedId = concatenateId(productAttributeValueIds);
 
-                const finalProduct = {
+                const finalProduct: CartItem = {
                     id: concatenatedId,
                     name: product.name,
                     price: product.price,
-                    amount: 1,
-                    productAttributeValueIds: productAttributeValueIds
+                    quantity: 1,
+                    productAttributeValueIds: productAttributeValueIds,
+                    product: fetchedProduct
                 };
 
                 addItem(finalProduct, 1);

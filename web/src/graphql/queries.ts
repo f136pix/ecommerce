@@ -21,7 +21,7 @@ class GraphQLQueries {
         }`;
     }
 
-    static constructGetProductByIdQuery(id: string, fields: string[] = ["id", "images { url }", "name", "price", "attributes { name, values { id, displayValue, value } }"]) {
+    static constructGetProductByIdQuery(id: string, fields: string[] = ["id", "images { url }", "name", "inStock", "price", "description", "attributes { name, values { id, displayValue, value } }"]) {
         return gql`
         query GetProductById {
             product(id: "${id}") {

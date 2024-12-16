@@ -1,3 +1,5 @@
+import {Item} from "react-use-cart";
+
 export type Product = {
     id: string;
     name: string;
@@ -8,6 +10,7 @@ export type Product = {
         name: string;
     };
     attributes: Attribute[]
+    description: string;
 };
 
 export type Image = {
@@ -21,5 +24,18 @@ export type Attribute = {
         id: string;
         value: string;
     }[];
-}; 
- 
+};
+
+export type CartItem = {
+    id: string,
+    name: string,
+    price: number,
+    quantity: number,
+    productAttributeValueIds: string[],
+    product: Product
+}
+
+export interface ICartItem extends Item {
+    product: Product;
+    productAttributeValueIds: string[];
+}

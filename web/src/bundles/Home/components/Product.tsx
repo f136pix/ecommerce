@@ -16,7 +16,7 @@ class Product extends Component<IProductProps> {
 
         return (
             <div
-                className={`bg-white overflow-hidden p-4 hover:shadow-2xl transition-all group`}>
+                className={`bg-transparent overflow-hidden p-4 hover:shadow-2xl transition-all group`}>
                 <div className="relative cursor-pointer"
                      onClick={() => navigate(`/product/${product.id}`)}>
                     <img src={product?.images[0]?.url} alt={"image " + product.name}
@@ -30,9 +30,9 @@ class Product extends Component<IProductProps> {
                 <div className="py-4">
                     <div className={"flex justify-between"}>
                         <p className="text-primary font-normal">{product?.name}</p>
-                        {!isOutOfStock && <div className={"z-50"}>
+                        {!isOutOfStock && <div className={"z-10"}>
                             <img src={AddToCartIcon}
-                                 className={"hidden group-hover:flex text-tertiary -mt-10 mr-4 h-12 z-50 cursor-pointer"}
+                                 className={"hidden group-hover:flex text-tertiary -mt-10 mr-4 h-12 z-10 cursor-pointer"}
                                  alt={"cart-icon"}
                                  onClick={() => addToCart(product)}
                             >
