@@ -1,12 +1,13 @@
-import {ComponentType, useEffect} from "react";
+import {ComponentType, lazy, Suspense, useEffect} from "react";
 import {IProductStore, useProductStore} from "./useProductStore.tsx";
-import ProductPage from "./ProductPage.tsx";
 import {useParams} from "react-router-dom";
 import {CartItem, Product} from "../../types/product.ts";
 import {concatenateId} from "../../utils";
 import {toast} from "react-toastify";
 import {useCart} from "react-use-cart";
 import {useHeaderStore} from "../_layouts/Header/useHeaderStore.tsx";
+
+const ProductPage = lazy(() => import("./ProductPage.tsx"));
 
 export interface ProductPageProps {
     productStore: IProductStore;
@@ -52,7 +53,11 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
 
         if (store.isLoading || !store?.product) return <div></div>
 
-        return <Component {...props} productStore={store} addToCart={handleAddToCart}/>;
+        return (
+            <Suspense fallback={<div></div>}>
+                <Component {...props} productStore={store} addToCart={handleAddToCart}/>
+            </Suspense>
+        )
     };
 };
 

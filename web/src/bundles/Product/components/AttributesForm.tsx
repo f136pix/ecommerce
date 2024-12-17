@@ -75,7 +75,8 @@ class AttributesForm extends Component<AttributeRadioProps, IAttributesFormProps
                                             } 
                                             ${selectedValues[attribute.name] === attributeValue.id
                                             && attribute.name !== "Color"
-                                                ? 'bg-primary text-white' : 'text-black'}
+                                                ? 'bg-primary text-white' : 'text-black'
+                                            }
                                         `}
                                         style={{backgroundColor: attribute.name === "Color" ? attributeValue.value : ''}}
                                     >

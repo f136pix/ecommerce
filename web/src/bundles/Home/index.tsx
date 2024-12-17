@@ -1,5 +1,4 @@
-import {ComponentType, useEffect} from "react";
-import HomePage from "./HomePage.tsx";
+import {ComponentType, lazy, Suspense, useEffect} from "react";
 import {useHomeStore} from "./useHomeStore.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {Attribute, CartItem, Product} from "../../types/product.ts";
@@ -10,6 +9,7 @@ import {toast, ToastContainer} from "react-toastify";
 import {concatenateId} from "../../utils";
 import {useProductStore} from "../Product/useProductStore.tsx";
 
+const HomePage = lazy(() => import("./HomePage.tsx"));
 
 export interface HomeProps {
     category: string;
@@ -80,11 +80,11 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
         if (isLoading) return <div></div>
 
         return (
-            <>
+            <Suspense fallback={<div></div>}>
                 <Component {...props} category={category!} products={products} navigate={navigate}
                            addToCart={HandleQuickAdd} isCartOpen={isCartOpen}/>
                 <ToastContainer position={"bottom-center"}/>
-            </>
+            </Suspense>
         )
     };
 };

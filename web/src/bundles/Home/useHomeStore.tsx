@@ -20,7 +20,7 @@ const useHomeStore = create<IHomeStore>((set) => {
             const response = await ProductService.fetchProducts({
                 fields: ['id', 'name', 'inStock', 'category { name }', 'price', 'images { url, position}'],
                 filter: {
-                    category: category,
+                    category,
                 }
             });
             set({products: response})
