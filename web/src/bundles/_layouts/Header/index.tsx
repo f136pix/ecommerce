@@ -1,34 +1,51 @@
-import {ComponentType} from 'react';
-import {useHeaderStore} from "./useHeaderStore.tsx";
+import { ComponentType } from 'react';
+import { IHeaderStore, useHeaderStore } from "./useHeaderStore";
 import Header from './Header';
-import {useNavigate, useParams} from "react-router-dom";
-import {CartProviderState, useCart} from "react-use-cart";
+import { useParams } from "react-router-dom";
+import { CartProviderState, useCart } from "react-use-cart";
+import { CartItem } from "../../../types/product";
+import { CreateOrderInput } from "../../../types/graphql";
 
 export interface HeaderProps {
+    headerStore: IHeaderStore;
+    cartStore: CartProviderState;
     currentCategory: string;
-    categories: string[];
-    navigate: (category: string) => void;
-    cartStore : CartProviderState;
-    toggleCart: () => void;
-    isCartOpen: boolean;
+    placeOrder: (input: CartItem[]) => Promise<void>;
 }
 
-const HOCWrapper = <P extends object>(Component: ComponentType<P & HeaderProps>) => {
-    return (props: P) => {
-        const {category} = useParams<{ category: string }>();
-        const {categories, toggleCart, isCartOpen} = useHeaderStore();
+const HOCWrapper = <P extends HeaderProps>(Component: ComponentType<P>) => {
+    return (props: Omit<P, keyof HeaderProps>) => {
+        const { category } = useParams<{ category: string }>();
+        const headerStore = useHeaderStore();
         const cartStore = useCart();
-        const navigate = useNavigate();
 
-        const handleChange = (category: string) => {
-            navigate(`/home/${category}`);
+        const handlePlaceOrder = async (input: CartItem[]) => {
+            try {
+                console.log(input);
+
+                const payload: CreateOrderInput = {
+                    orderItems: input.map((item) => ({
+                        productAttributeValueIds: item.productAttributeValueIds.map(Number),
+                        amount: item.quantity
+                    }))
+                };
+
+                await headerStore.placeOrder(payload);
+                cartStore.emptyCart();
+
+            } catch (error) {
+                console.error("Failed to place order:", error);
+            }
         };
 
-        return <Component {...props} currentCategory={category!} categories={categories}
-                          navigate={handleChange} toggleCart={toggleCart} isCartOpen={isCartOpen} cartStore={cartStore}/>;
+        return <Component
+            {...props as P}
+            currentCategory={category!}
+            placeOrder={handlePlaceOrder}
+        />;
     };
 };
 
 const index = HOCWrapper(Header);
 
-export default index
+export default index;

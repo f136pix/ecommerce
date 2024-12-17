@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.2
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: Password!
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Password!
+      MYSQL_DATABASE: ecommerce
+    ports:
+      - "3306:3306"
+  
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server-container
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+
+  web:
+    image: your-web-image
+    container_name: web-container
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"

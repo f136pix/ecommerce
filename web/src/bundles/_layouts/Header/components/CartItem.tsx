@@ -21,10 +21,11 @@ class CartItemComponent extends Component<CartItemProps> {
         const {updateItemQuantity} = cartStore;
 
         return (
-            <li className="flex space-x-2 justify-between text-sm mb-2 mt-6 h-auto">
+            <li 
+                className="flex space-x-2 justify-between text-sm mb-2 mt-6 h-auto" >
                 <div className="flex flex-col space-y-2">
                     <h3 className={"font-light text-lg text-secondary"}>{item.product.name}</h3>
-                    <h3 className={"font-normal"}>${item.price}</h3>
+                    <h3 className={"font-medium"}>${item.price}</h3>
                     <CartItemAttributesForm
                         product={item.product}
                         selectedValues={getSelectedValues(item.product, item.productAttributeValueIds)}

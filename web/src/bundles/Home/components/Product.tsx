@@ -16,7 +16,9 @@ class Product extends Component<IProductProps> {
 
         return (
             <div
-                className={`bg-transparent overflow-hidden p-4 hover:shadow-2xl transition-all group`}>
+                className={`bg-transparent overflow-hidden p-4 hover:shadow-2xl transition-all group`}
+                data-testid={`product-${product.name}`}
+            >
                 <div className="relative cursor-pointer"
                      onClick={() => navigate(`/product/${product.id}`)}>
                     <img src={product?.images[0]?.url} alt={"image " + product.name}

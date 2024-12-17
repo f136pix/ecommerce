@@ -17,6 +17,7 @@ class ProductsContracts
                 'name' => Type::string(),
                 'inStock' => Type::boolean(),
                 'price' => Type::float(),
+                'description' => Type::string(),
                 'images' => [
                     'type' => Type::listOf(ProductsContracts::productImageType()),
                 ],

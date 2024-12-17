@@ -4,7 +4,6 @@ namespace App\Application\Resolvers\Queries;
 
 use App\Application\Exceptions\PublicException;
 use App\Application\Interfaces\GraphQLResolver;
-use App\Domain\ProductsAggregate\Product as ProductEntity;
 use App\Domain\ProductsAggregate\ProductAttributeValue;
 use Doctrine\ORM\EntityManager;
 use Throwable;
@@ -21,50 +20,43 @@ class GetProductAttributesResolver implements GraphQLResolver
     public function resolve($root, $args, $context, $info = null)
     {
         try {
-            $productId = $args['productId'] ?? null;
-
-            if ($productId === null) {
-                throw new PublicException("Product ID is required");
-            }
+            $productId = $args['productId'] ?? throw new PublicException("Product ID is required");
 
             $qb = $this->entityManager->createQueryBuilder();
-            $qb->select('pav')
+            $qb->select('pav', 'av', 'attributeSet')
                 ->from(ProductAttributeValue::class, 'pav')
-                ->join('pav.attributeSet', 'as')
+                ->join('pav.attributeSet', 'attributeSet')
                 ->join('pav.attributeValue', 'av')
-                ->join('pav.product', 'p')
-                ->where('p.id = :productId')
-                ->setParameter(':productId', $productId);
+                ->where('pav.product = :product')
+                ->setParameter('product', $productId);
 
-            $productAttributeValues = $qb->getQuery()->getResult();
+            $productAttributeValues = $qb->getQuery()
+                ->useQueryCache(true)  // Enable query result caching
+                ->setHint('doctrine.query_hint.cacheable', true)
+                ->getResult();
 
-            $attributes = [];
-            foreach ($productAttributeValues as $productAttributeValue) {
+            $formattedAttributes = array_reduce($productAttributeValues, function ($carry, $productAttributeValue) {
                 $attributeName = $productAttributeValue->getAttributeSet()->getName();
                 $attributeValue = $productAttributeValue->getAttributeValue();
 
-                if (!isset($attributes[$attributeName])) {
-                    $attributes[$attributeName] = [];
-                }
-
-                $attributes[$attributeName][] = [
+                $carry[$attributeName][] = [
                     'id' => $productAttributeValue->getId(),
                     'value' => $attributeValue->getValue(),
                     'displayValue' => $attributeValue->getDisplayValue(),
                 ];
-            }
 
-            $formattedAttributes = [];
-            foreach ($attributes as $name => $values) {
-                $formattedAttributes[] = [
-                    'name' => $name,
-                    'values' => $values,
-                ];
-            }
+                return $carry;
+            }, []);
 
-            return $formattedAttributes;
+            return array_map(fn($name, $values) => [
+                'name' => $name,
+                'values' => $values
+            ], array_keys($formattedAttributes), $formattedAttributes);
         } catch (Throwable $e) {
-            error_log($e->getTraceAsString());
+            error_log('Product attribute fetch error', [
+                'productId' => $productId ?? 'unknown',
+                'error' => $e->getMessage()
+            ]);
             throw new PublicException("There was an error fetching product attributes");
         }
     }

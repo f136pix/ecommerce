@@ -1,6 +1,5 @@
 import GraphQLQueries from "../graphql/queries.ts";
 import client from "../lib/appoloClient.ts";
-import {CreateOrderInput} from "../types/graphql";
 import {Product} from "../types/product.ts";
 
 export type FilterKeys = "category" | "price" | "brand";
@@ -38,20 +37,6 @@ class ProductService {
         }
 
         return response.data.product;
-    }
-
-    static async createOrder(input: CreateOrderInput) {
-        const mutation = GraphQLQueries.constructCreateOrderMutation();
-        const response = await client.mutate({
-            mutation,
-            variables: {input}
-        });
-
-        if (response.errors) {
-            throw response;
-        }
-
-        return response.data.createOrder;
     }
 }
 

@@ -5,6 +5,7 @@ namespace App\Application\Resolvers\Queries;
 use App\Application\Exceptions\PublicException;
 use App\Application\Interfaces\GraphQLResolver;
 use App\Domain\ProductsAggregate\Product as ProductEntity;
+use App\Domain\ProductsAggregate\ProductImage;
 use Doctrine\ORM\EntityManager;
 use Throwable;
 
@@ -28,9 +29,10 @@ class GetProductResolver implements GraphQLResolver
             }
 
             $qb = $this->entityManager->createQueryBuilder();
-            $qb->select('p')
+            $qb->select('p', 'i')
                 ->from(ProductEntity::class, 'p')
                 ->leftJoin('p.category', 'c')
+                ->leftJoin('p.images', 'i')
                 ->where('p.id = :id')
                 ->setParameter('id', $productId);
 
@@ -45,10 +47,18 @@ class GetProductResolver implements GraphQLResolver
                 'name' => $product->getName(),
                 'inStock' => $product->isInStock(),
                 'price' => $product->getPrice(),
+                'description' => $product->getDescription(),
                 'category' => [
                     'id' => $product->getCategory()->getId(),
                     'name' => $product->getCategory()->getName(),
                 ],
+                'images' => array_map(function (ProductImage $image) {
+                    return [
+                        'id' => $image->getId(),
+                        'url' => $image->getUrl(),
+                        'position' => $image->getPosition(),
+                    ];
+                }, $product->getImages()->toArray()),
             ];
 
             // If client is requesting attributes, using attributes resolver to fetch it

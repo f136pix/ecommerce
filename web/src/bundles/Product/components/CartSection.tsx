@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import {Product} from "../../../types/product.ts";
 import AttributesForm from "./AttributesForm.tsx";
+import {htmlToText} from "html-to-text";
 
 type CartSectionProps = {
     product: Product;
@@ -14,6 +15,12 @@ class CartSection extends Component<CartSectionProps> {
             <div className={"flex flex-col w-5/12 h-auto text-3xl space-x-24 text-primary"}>
                 <h2 className={"font-semibold mb-12 ml-24"}>{product.name}</h2>
                 <AttributesForm product={product} addToCart={addToCart}/>
+                <div className={"text-sm text-primary font-normal"} data-testid='product-description'>
+                    {htmlToText(product.description, {
+                        wordwrap: false,
+                        preserveNewlines: true
+                    })}
+                </div>
             </div>
         );
     }

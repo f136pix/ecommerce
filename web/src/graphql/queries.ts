@@ -29,16 +29,6 @@ class GraphQLQueries {
             }
         }`;
     }
-
-    static constructCreateOrderMutation() {
-        return gql`
-        mutation CreateOrder($input: CreateOrderInput!) {
-            createOrder(input: $input) {
-                id
-                status
-            }
-        }`;
-    }
 }
 
 export default GraphQLQueries;

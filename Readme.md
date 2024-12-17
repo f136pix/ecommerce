@@ -5,10 +5,7 @@ https://github.com/Ecodev/graphql-doctrine
 ![img_1.png](img_1.png)
 > The dotted entities are join tables
 
-On this schema, an OrderItem is the closest to a Product. It has a ManyToOne relationship with ProductAttributeValue,
-which is the entity that holds the product's attributes, defining for example the color, size, etc...
-
-## GraphQL Queries
+## GraphQL Requests
 
 - Get All Products
 
@@ -31,7 +28,7 @@ which is the entity that holds the product's attributes, defining for example th
 ```graphql
 // Query
 {
-  product(id: "5") {
+  product(id: 5) {
     id,
     name,
     price,
@@ -58,11 +55,11 @@ mutation {
   createOrder(input: {
     orderItems: [
       {
-        productAttributeValueIds: ["1","3"],
-        amount: 2
+        productAttributeValueIds: [1,43],
+        amount: 1
       },
       {
-        productAttributeValueIds: ["1","1"],
+        productAttributeValueIds: [32,74],
         amount: 3
       }
     ]

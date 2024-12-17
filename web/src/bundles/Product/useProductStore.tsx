@@ -9,8 +9,8 @@ export interface IProductStore {
     setLoading: (isLoading: boolean) => void;
     setProduct: (product: Product) => void;
     setCurrentImage: (currentImage: Image) => void;
+    resetProduct: () => void;
     fetchProduct: (id: string) => void;
-    // addProductToCart: (product: Product) => void;
 }
 
 const useProductStore = create<IProductStore>((set) => ({
@@ -20,6 +20,10 @@ const useProductStore = create<IProductStore>((set) => ({
     setLoading: (isLoading: boolean) => set({isLoading}),
     setProduct: (product: Product) => set({product}),
     setCurrentImage: (currentImage: Image) => set({currentImage}),
+
+    resetProduct: () => {
+        set({product: null});
+    },
 
     fetchProduct: async (id: string) => {
         try {

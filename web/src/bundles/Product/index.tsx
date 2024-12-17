@@ -6,6 +6,7 @@ import {CartItem, Product} from "../../types/product.ts";
 import {concatenateId} from "../../utils";
 import {toast} from "react-toastify";
 import {useCart} from "react-use-cart";
+import {useHeaderStore} from "../_layouts/Header/useHeaderStore.tsx";
 
 export interface ProductPageProps {
     productStore: IProductStore;
@@ -17,6 +18,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
         const store = useProductStore();
         const {id} = useParams<{ id: string }>();
         const {addItem, items} = useCart();
+        const {toggleCart} = useHeaderStore();
 
         useEffect(() => {
             if (!id) return;
@@ -38,6 +40,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
                 };
 
                 addItem(finalProduct, 1);
+                toggleCart()
                 toast.success("Item added successfully to the cart")
             } catch (error) {
                 toast.error("An error occurred while adding the product to the cart")

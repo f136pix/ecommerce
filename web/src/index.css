@@ -50,16 +50,6 @@ button {
     transition: border-color 0.25s;
 }
 
-button:hover {
-    border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-}
-
-
 .darken {
     background: #bbbbbb;
     opacity: 0.4;
@@ -68,6 +58,15 @@ button:focus-visible {
     width: 100%;
     height: 100%;
     z-index: 2;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 @media (prefers-color-scheme: light) {

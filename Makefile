@@ -1,4 +1,4 @@
-.PHONY: run-db migrate
+.PHONY: run-db migrate run-php
 run-db: 
 	@echo "Starting mySql container..."
 #	sudo service mysql stop
@@ -8,3 +8,15 @@ migrate:
 	@echo "Running migrations..."
 	cd server && php vendor/bin/doctrine-migrations diff
 	cd server && php vendor/bin/doctrine-migrations migrate
+	cd server && php seeder/script.php
+	
+run-php: 
+	cd server && php -S localhost:8000 -t public
+	
+run-web:
+	cd web && yarn build
+	cd web && yarn global add serve -s dist
+	
+
+	
+	

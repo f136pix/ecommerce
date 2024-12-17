@@ -13,7 +13,6 @@ class Layout extends Component<{ isCartOpen: boolean, toggleCart: () => void }> 
             <div className={"flex flex-col w-12/12 mx-auto "}>
                 <Header/>
                 <div 
-                    // className={`${isCartOpen ? 'darken z-50 min-h-screen' : ''}`}
                     className={`${isCartOpen ? 'darken z-50 min-h-screen' : ''}`}
                      onClick={() => isCartOpen ? toggleCart() : null}
                 >

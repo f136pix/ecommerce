@@ -13,17 +13,19 @@ class CartItemQuantityForm extends Component<CartItemQuantityFormProps> {
         const {itemId, quantity, updateItemQuantity} = this.props;
 
         return (
-            <div className="flex flex-col items-center justify-between">
+            <div className='flex flex-col items-center justify-between'>
                 <button
                     onClick={() => updateItemQuantity(itemId, quantity + 1)}
                     className={className}
+                    data-testid='cart-item-amount-decrease'
                 >
                     +
                 </button>
-                <a className={"text-black font-normal"}>{quantity}</a>
+                <a className={'text-black font-normal'} data-testid='cart-item-amount'>{quantity}</a>
                 <button
                     onClick={() => updateItemQuantity(itemId, quantity - 1)}
                     className={className}
+                    data-testid='cart-item-amount-increase'
                 >
                     -
                 </button>

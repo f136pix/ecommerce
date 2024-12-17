@@ -21,7 +21,7 @@ class ImagesList extends Component<ImagesSectionProps> {
         const {currentImage} = this.props;
 
         return (
-            <div className="relative flex h-[30rem] w-6/12 bg-transparent">
+            <div className="relative flex h-[30rem] w-6/12 bg-transparent" data-testid='product-gallery'>
                 <button onClick={this.handlePreviousImage}
                         className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-none ml-5">
                     <img src={CaretLeft} className="filter invert h-4"/>

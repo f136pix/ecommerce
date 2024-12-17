@@ -8,6 +8,7 @@ import ProductService from "../../services/productService.ts";
 import {useCart} from "react-use-cart";
 import {toast, ToastContainer} from "react-toastify";
 import {concatenateId} from "../../utils";
+import {useProductStore} from "../Product/useProductStore.tsx";
 
 
 export interface HomeProps {
@@ -15,6 +16,7 @@ export interface HomeProps {
     products: Product[];
     navigate: (url: string) => void;
     addToCart: (product: Product) => void;
+    isCartOpen: boolean;
 }
 
 const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) => {
@@ -22,8 +24,9 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
         const {category} = useParams<{ category: string }>();
         const navigate = useNavigate();
         const {addItem, items} = useCart();
-        const {categories} = useHeaderStore();
+        const {categories, toggleCart, isCartOpen} = useHeaderStore();
         const {products, fetchProducts, isLoading} = useHomeStore();
+        const {resetProduct} = useProductStore();
 
         useEffect(() => {
             if (!category) navigate("/home/all");
@@ -40,6 +43,11 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
                 category == "all" ? fetchProducts() : fetchProducts(category)
             }, [category]
         );
+
+        // Avoids image of previous product appearing on screen when switching products
+        useEffect(() => {
+            resetProduct();
+        }, []);
 
         const HandleQuickAdd = async (product: Product) => {
             try {
@@ -61,7 +69,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
                 };
 
                 addItem(finalProduct, 1);
-                toast.success("Item added successfully to the cart")
+                toggleCart();
             } catch (error) {
                 toast.error("An error occurred while adding the product to the cart")
             } finally {
@@ -74,7 +82,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
         return (
             <>
                 <Component {...props} category={category!} products={products} navigate={navigate}
-                           addToCart={HandleQuickAdd}/>
+                           addToCart={HandleQuickAdd} isCartOpen={isCartOpen}/>
                 <ToastContainer position={"bottom-center"}/>
             </>
         )

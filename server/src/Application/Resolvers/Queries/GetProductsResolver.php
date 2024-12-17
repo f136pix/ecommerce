@@ -26,8 +26,9 @@ class GetProductsResolver implements GraphQLResolver
             $qb = $this->entityManager->createQueryBuilder();
             $qb->select('p')
                 ->from(ProductEntity::class, 'p')
-                ->leftJoin('p.category', 'c');
-
+                ->leftJoin('p.category', 'c')
+                ->leftJoin('p.images', 'i');
+            
             if (isset($filters['name'])) {
                 $qb->andWhere('p.name LIKE :name')
                     ->setParameter('name', '%' . $filters['name'] . '%');
@@ -60,6 +61,7 @@ class GetProductsResolver implements GraphQLResolver
                 ];
             }, $res);
         } catch (Throwable $e) {
+            error_log($e->getTraceAsString());
             throw new PublicException("There was a error fetching the products");
         }
     }

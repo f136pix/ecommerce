@@ -13,6 +13,12 @@ $entityManager = require __DIR__ . '/../src/Infraestructure/Persistence/doctrine
 $jsonData = file_get_contents(__DIR__ . '/data.json');
 $data = json_decode($jsonData, true);
 
+// If is there already any seeded data, not running it again
+$existingCategories = $entityManager->getRepository(Category::class)->findAll();
+if (count($existingCategories) > 0) {
+    die('Data already seeded.');
+}
+
 
 foreach ($data['data']['categories'] as $categoryData) {
     $category = $entityManager->getRepository(Category::class)->findOneBy(['name' => $categoryData['name']]);

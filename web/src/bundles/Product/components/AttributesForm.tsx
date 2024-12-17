@@ -1,6 +1,5 @@
 import {Component} from "react";
 import {Product} from "../../../types/product.ts";
-import {htmlToText} from 'html-to-text';
 import {cn} from "../../../utils";
 
 
@@ -18,9 +17,6 @@ class AttributesForm extends Component<AttributeRadioProps, IAttributesFormProps
     constructor(props: AttributeRadioProps) {
         super(props);
         const initialSelectedValues: { [key: string]: string } = {};
-        // props.product.attributes.forEach(attr => {
-        //     initialSelectedValues[attr.name] = attr.values[0].value;
-        // });
         this.state = {
             selectedValues: initialSelectedValues,
             isAllAttributesSelected: false
@@ -51,7 +47,10 @@ class AttributesForm extends Component<AttributeRadioProps, IAttributesFormProps
         return (
             <div>
                 {attributes.map((attribute) => (
-                    <div key={attribute.name} className={"mb-8"}>
+                    <div
+                        key={attribute.name}
+                        className={"mb-8"}
+                        data-testid={`product-attribute-${attribute.name}`}>
                         <h3 className={"font-bold uppercase text-sm mb-1"}>{attribute.name + ":"}</h3>
                         <div className={"flex"}>
                             {attribute.values.map((attributeValue) => (
@@ -97,18 +96,12 @@ class AttributesForm extends Component<AttributeRadioProps, IAttributesFormProps
 
                 <button
                     className={cn("bg-secondary-bg uppercase text-neutral-50 rounded-none text-base w-[70%] mb-8", (!product.inStock || !isAllAttributesSelected) && "cursor-not-allowed bg-gray-400")}
+                    data-testid='add-to-cart'
                     disabled={!product.inStock || !isAllAttributesSelected}
                     onClick={() => addToCart(product, Object.values(selectedValues))}
                 >
                     {!product.inStock ? "out of stock" : "add to cart"}
                 </button>
-
-                <div className={"text-sm text-primary font-normal"}>
-                    {htmlToText(product.description, {
-                        wordwrap: false,
-                        preserveNewlines: true
-                    })}
-                </div>
             </div>
         );
     }

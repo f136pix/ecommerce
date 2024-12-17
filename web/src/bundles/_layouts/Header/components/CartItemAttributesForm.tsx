@@ -48,11 +48,21 @@ class CartItemAttributesForm extends Component<CartItemAttributesProps, CartItem
         return (
             <div className={"w-32 max-w-32 min-w-32"}>
                 {product.attributes.map((attribute, index) => (
-                    <div key={attribute.name} className={index > 0 ? "mt-3" : ""}>
+                    <div
+                        key={attribute.name}
+                        className={index > 0 ? "mt-3" : ""}
+                        data-testid={`cart-item-attribute-${attribute.name}`}
+                    >
                         <h3 className={"capitalize text-sm mb-1 text-secondary"}>{attribute.name + ":"}</h3>
                         <div className={"flex"}>
                             {attribute.values.map((attributeValue) => (
-                                <label key={attributeValue.id} className="relative mr-1.5 cursor-pointer">
+                                <label
+                                    key={attributeValue.id}
+                                    className="relative mr-1.5 cursor-pointer"
+                                    data-testid={selectedValues[attribute.name] === attributeValue.id
+                                        ? `cart-item-attribute-${attribute.name}-${attribute.name}-selected`
+                                        : `cart-item-attribute-${attribute.name}-${attribute.name}`}
+                                >
                                     <input
                                         type="radio"
                                         name={attribute.name}
@@ -65,17 +75,20 @@ class CartItemAttributesForm extends Component<CartItemAttributesProps, CartItem
                                         className={`flex items-center justify-center ${selectedValues[attribute.name] === attributeValue.id && attribute.name === "Color"
                                             ? 'border-[0.12rem] border-green-400'
                                             : 'border'} 
-                            ${attribute.name === "Color"
+                                            ${attribute.name === "Color"
                                             ? 'w-4 h-4'
-                                            : 'w-6 h-6 border-black text-xs'} 
-                            ${selectedValues[attribute.name] === attributeValue.id && attribute.name !== "Color"
+                                            : attribute.name === "Capacity"
+                                                ? 'w-10 h-6 border-black text-xs'
+                                                : 'w-6 h-6 border-black text-xs'} 
+                                            ${selectedValues[attribute.name] === attributeValue.id && attribute.name !== "Color"
                                             ? 'bg-primary text-white' : 'text-black'}`}
                                         style={{backgroundColor: attribute.name === "Color" ? attributeValue.value : ''}}
                                     >
                                         {attribute.name !== "Color" && (
-                                            <span className="absolute inset-0 flex items-center justify-center font-normal">
-                                {attributeValue.value}
-                            </span>
+                                            <span
+                                                className="absolute inset-0 flex items-center justify-center font-normal">
+                                                {attributeValue.value}
+                                            </span>
                                         )}
                                     </div>
                                 </label>
