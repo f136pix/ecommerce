@@ -20,5 +20,5 @@ run-php:
 run-web:
 	cd web && yarn build
 	cd web && yarn global add serve
-	cd web && nohup sudo serve -s dist -l 80 > serve.log 2>&1 &
+	cd web && nohup sudo serve -s dist -l 3000 > serve.log 2>&1 &
 	
