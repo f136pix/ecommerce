@@ -32,7 +32,6 @@ class ProductService {
         const response = await client.query({query});
 
         if (response.errors) {
-            console.log(response.errors)
             throw response;
         }
 

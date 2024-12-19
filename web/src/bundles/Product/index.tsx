@@ -24,7 +24,6 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
         useEffect(() => {
             if (!id) return;
             if (id) store.fetchProduct(id);
-            console.log(store.product)
         }, [id]);
 
         const handleAddToCart = async (product: Product, productAttributeValueIds: string[]) => {
@@ -46,7 +45,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
             } catch (error) {
                 toast.error("An error occurred while adding the product to the cart")
             } finally {
-                console.log(items);
+                // console.log(items);
             }
         };
 

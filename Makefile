@@ -11,12 +11,14 @@ migrate:
 	cd server && php seeder/script.php
 	
 run-php: 
-	cd server && php -S localhost:8000 -t public
+	#cd server && nohup php -S localhost:8000 -t public > server.log 2>&1 &
+	cd server && composer update
+	cd server && composer install
+	cd server && nohup php -S 0.0.0.0:8000 -t public > server.log 2>&1 &
+	#cd server && php -S localhost:8000 -t public
 	
 run-web:
 	cd web && yarn build
-	cd web && yarn global add serve -s dist
-	
-
-	
+	cd web && yarn global add serve
+	cd web && nohup sudo serve -s dist -l 80 > serve.log 2>&1 &
 	

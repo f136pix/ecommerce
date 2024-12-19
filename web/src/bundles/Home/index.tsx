@@ -73,7 +73,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
             } catch (error) {
                 toast.error("An error occurred while adding the product to the cart")
             } finally {
-                console.log(items);
+                // console.log(items);
             }
         };
 

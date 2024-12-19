@@ -13,7 +13,6 @@ type CartItemProps = {
 class CartItemComponent extends Component<CartItemProps> {
     constructor(props: CartItemProps) {
         super(props);
-        console.log(props.item);
     }
 
     render() {

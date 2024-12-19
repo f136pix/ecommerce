@@ -28,7 +28,6 @@ const useProductStore = create<IProductStore>((set) => ({
     fetchProduct: async (id: string) => {
         try {
             set({isLoading: true});
-            console.log(id)
             const response = await ProductService.fetchProductById(id);
             set({product: response});
             set({currentImage: response?.images[0]});

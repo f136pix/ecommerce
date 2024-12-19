@@ -21,8 +21,6 @@ const HOCWrapper = <P extends HeaderProps>(Component: ComponentType<P>) => {
 
         const handlePlaceOrder = async (input: CartItem[]) => {
             try {
-                console.log(input);
-
                 const payload: CreateOrderInput = {
                     orderItems: input.map((item) => ({
                         productAttributeValueIds: item.productAttributeValueIds.map(Number),

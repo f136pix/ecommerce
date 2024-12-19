@@ -24,9 +24,7 @@ const useHomeStore = create<IHomeStore>((set) => {
                 }
             });
             set({products: response})
-            console.log(response)
         } catch (error: any) {
-            console.log(error.toString());
         } finally {
             set({isLoading: false});
         }
