@@ -20,7 +20,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
     return (props: P) => {
         const store = useProductStore();
         const {id} = useParams<{ id: string }>();
-        const {addItem, items} = useCart();
+        const {addItem} = useCart();
         const {toggleCart} = useHeaderStore();
 
         useEffect(() => {

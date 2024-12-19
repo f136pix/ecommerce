@@ -19,8 +19,9 @@ const useHeaderStore = create<IHeaderStore>((set) => ({
 
     placeOrder: async (input: CreateOrderInput) => {
         try {
-            const order = await orderService.createOrder(input);
+            // const order = await orderService.createOrder(input);
             // console.log("Order placed successfully:", order);
+            await orderService.createOrder(input);
         } catch (error) {
             // console.error("Failed to place order:", error);
             throw error;

@@ -25,7 +25,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
     return (props: P) => {
         const {category} = useParams<{ category: string }>();
         const navigate = useNavigate();
-        const {addItem, items} = useCart();
+        const {addItem} = useCart();
         const {categories, toggleCart, isCartOpen} = useHeaderStore();
         const {products, fetchProducts, isLoading} = useHomeStore();
         const {resetProduct} = useProductStore();
