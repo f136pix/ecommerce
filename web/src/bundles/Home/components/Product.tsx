@@ -1,6 +1,7 @@
 import {Component} from "react";
+
+import AddToCartIcon from "../../../assets/icons/AddCartIcon.png";
 import {Product as productType} from "../../../types/product.ts";
-import AddToCartIcon from "../../../assets/icons/AddCartIcon.png"
 
 type IProductProps = {
     product: productType,

@@ -1,9 +1,11 @@
 import {Component} from 'react';
 import {CartProviderState} from "react-use-cart";
+
+import {CartItem} from "../../../../types/product.ts";
+
+import CartFooter from './CartFooter';
 import CartHeader from './CartHeader';
 import CartItemComponent from './CartItem';
-import CartFooter from './CartFooter';
-import {CartItem} from "../../../../types/product.ts";
 
 type CartComponentProps = {
     cartStore: CartProviderState;

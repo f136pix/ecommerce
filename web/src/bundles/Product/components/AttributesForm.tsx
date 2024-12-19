@@ -1,4 +1,5 @@
 import {Component} from "react";
+
 import {Product} from "../../../types/product.ts";
 import {cn} from "../../../utils";
 
@@ -35,7 +36,7 @@ class AttributesForm extends Component<AttributeRadioProps, IAttributesFormProps
                 isAllAttributesSelected
             };
         });
-    }
+    };
 
     render() {
         const {product, addToCart} = this.props;

@@ -1,6 +1,7 @@
 import { ComponentType } from 'react';
-import { useHeaderStore } from "../bundles/_layouts/Header/useHeaderStore";
 import { useCart } from "react-use-cart";
+
+import { useHeaderStore } from "../bundles/_layouts/Header/useHeaderStore";
 
 // Define a common interface for the additional props
 interface StoreProps {

@@ -1,6 +1,7 @@
 import {Component} from 'react';
-import {ImagesSectionProps} from "../ProductPage.tsx";
+
 import CaretLeft from "../../../assets/icons/CaretLeft.png";
+import {ImagesSectionProps} from "../ProductPage.tsx";
 
 class ImagesList extends Component<ImagesSectionProps> {
     handleNextImage = () => {

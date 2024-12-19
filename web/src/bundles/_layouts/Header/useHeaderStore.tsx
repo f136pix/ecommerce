@@ -1,7 +1,9 @@
 import {create} from "zustand";
-import content from "./content.json";
+
 import orderService from "../../../services/orderService.ts";
 import {CreateOrderInput} from "../../../types/graphql";
+
+import content from "./content.json";
 
 export interface IHeaderStore {
     categories: string[];
@@ -21,7 +23,7 @@ const useHeaderStore = create<IHeaderStore>((set) => ({
             // console.log("Order placed successfully:", order);
         } catch (error) {
             // console.error("Failed to place order:", error);
-            throw error
+            throw error;
         }
     }
     

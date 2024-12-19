@@ -1,11 +1,13 @@
 import {ComponentType, lazy, Suspense, useEffect} from "react";
-import {IProductStore, useProductStore} from "./useProductStore.tsx";
 import {useParams} from "react-router-dom";
-import {CartItem, Product} from "../../types/product.ts";
-import {concatenateId} from "../../utils";
 import {toast} from "react-toastify";
 import {useCart} from "react-use-cart";
+
+import {CartItem, Product} from "../../types/product.ts";
+import {concatenateId} from "../../utils";
 import {useHeaderStore} from "../_layouts/Header/useHeaderStore.tsx";
+
+import {IProductStore, useProductStore} from "./useProductStore.tsx";
 
 const ProductPage = lazy(() => import("./ProductPage.tsx"));
 
@@ -24,7 +26,7 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
         useEffect(() => {
             if (!id) return;
             if (id) store.fetchProduct(id);
-        }, [id]);
+        }, [id, store]);
 
         const handleAddToCart = async (product: Product, productAttributeValueIds: string[]) => {
             try {
@@ -40,26 +42,26 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
                 };
 
                 addItem(finalProduct, 1);
-                toggleCart()
-                toast.success("Item added successfully to the cart")
+                toggleCart();
+                toast.success("Item added successfully to the cart");
             } catch (error) {
-                toast.error("An error occurred while adding the product to the cart")
+                toast.error("An error occurred while adding the product to the cart");
             } finally {
                 // console.log(items);
             }
         };
 
 
-        if (store.isLoading || !store?.product) return <div></div>
+        if (store.isLoading || !store?.product) return <div></div>;
 
         return (
             <Suspense fallback={<div></div>}>
                 <Component {...props} productStore={store} addToCart={handleAddToCart}/>
             </Suspense>
-        )
+        );
     };
 };
 
 const index = HOCWrapper(ProductPage);
 
-export default index
+export default index;

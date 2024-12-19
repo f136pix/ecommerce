@@ -1,9 +1,11 @@
 import {Component} from 'react';
-import {ProductPageProps} from "./index.tsx";
-import ImagesBar from "./components/ImagesBar.tsx";
+
 import {Image as ImageType} from "../../types/product.ts";
-import ImagesList from "./components/ImagesList.tsx";
+
 import CartSection from "./components/CartSection.tsx";
+import ImagesBar from "./components/ImagesBar.tsx";
+import ImagesList from "./components/ImagesList.tsx";
+import {ProductPageProps} from "./index.tsx";
 
 
 export interface ImagesSectionProps {

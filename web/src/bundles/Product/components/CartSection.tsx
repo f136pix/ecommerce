@@ -1,7 +1,9 @@
 import {Component} from 'react';
-import {Product} from "../../../types/product.ts";
-import AttributesForm from "./AttributesForm.tsx";
 import {htmlToText} from "html-to-text";
+
+import {Product} from "../../../types/product.ts";
+
+import AttributesForm from "./AttributesForm.tsx";
 
 type CartSectionProps = {
     product: Product;

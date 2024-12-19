@@ -2,6 +2,7 @@ import {Component} from 'react';
 import {
     Outlet,
 } from 'react-router-dom';
+
 import Header from "./Header";
 
 import '../../index.css';
@@ -19,7 +20,7 @@ class Layout extends Component<{ isCartOpen: boolean, toggleCart: () => void }> 
                     <Outlet/>
                 </div>
             </div>
-        )
+        );
     }
 }
 

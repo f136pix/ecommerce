@@ -1,9 +1,10 @@
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+
+import {useHeaderStore} from "../bundles/_layouts/Header/useHeaderStore.tsx";
 import Layout from "../bundles/_layouts/Layout.tsx";
+import NotFound from "../bundles/_layouts/NotFound.tsx";  
 import HomePage from "../bundles/Home/index.tsx";
 import ProductPage from "../bundles/Product/index.tsx";
-import {useHeaderStore} from "../bundles/_layouts/Header/useHeaderStore.tsx";
-import NotFound from "../bundles/_layouts/NotFound.tsx";  
 
 
 const AppRouter = () => {
@@ -20,6 +21,6 @@ const AppRouter = () => {
             </Routes>
         </Router>
     );
-}
+};
 
 export default AppRouter;

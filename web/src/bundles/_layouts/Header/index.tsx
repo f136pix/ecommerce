@@ -1,10 +1,12 @@
 import { ComponentType } from 'react';
-import { IHeaderStore, useHeaderStore } from "./useHeaderStore";
-import Header from './Header';
 import { useParams } from "react-router-dom";
 import { CartProviderState, useCart } from "react-use-cart";
-import { CartItem } from "../../../types/product";
+
 import { CreateOrderInput } from "../../../types/graphql";
+import { CartItem } from "../../../types/product";
+
+import Header from './Header';
+import { IHeaderStore, useHeaderStore } from "./useHeaderStore";
 
 export interface HeaderProps {
     headerStore: IHeaderStore;

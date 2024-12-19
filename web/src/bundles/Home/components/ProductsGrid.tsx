@@ -1,5 +1,7 @@
 import {Component} from "react";
+
 import {Product as productType} from "../../../types/product.ts";
+
 import Product from "./Product.tsx";
 
 type IProductsGridProps = {
@@ -16,7 +18,7 @@ class ProductsGrid extends Component<IProductsGridProps> {
                 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-12 gap-x-12 "
             >
                 {products.map((product) => {
-                    return <Product key={product.id} product={product} addToCart={addToCart} navigate={navigate}/>
+                    return <Product key={product.id} product={product} addToCart={addToCart} navigate={navigate}/>;
                 })}
             </div>
         );

@@ -1,13 +1,15 @@
 import {ComponentType, lazy, Suspense, useEffect} from "react";
-import {useHomeStore} from "./useHomeStore.tsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {Attribute, CartItem, Product} from "../../types/product.ts";
-import {useHeaderStore} from "../_layouts/Header/useHeaderStore.tsx";
-import ProductService from "../../services/productService.ts";
-import {useCart} from "react-use-cart";
 import {toast, ToastContainer} from "react-toastify";
+import {useCart} from "react-use-cart";
+
+import ProductService from "../../services/productService.ts";
+import {Attribute, CartItem, Product} from "../../types/product.ts";
 import {concatenateId} from "../../utils";
+import {useHeaderStore} from "../_layouts/Header/useHeaderStore.tsx";
 import {useProductStore} from "../Product/useProductStore.tsx";
+
+import {useHomeStore} from "./useHomeStore.tsx";
 
 const HomePage = lazy(() => import("./HomePage.tsx"));
 
@@ -32,15 +34,15 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
             if (!category) navigate("/home/all");
 
             if (!categories.includes(category!.toLowerCase())) {
-                navigate("/home/all")
-                return
+                navigate("/home/all");
+                return;
             }
 
             navigate(`/home/${category}`);
         }, [category]);
 
         useEffect(() => {
-                category == "all" ? fetchProducts() : fetchProducts(category)
+                category == "all" ? fetchProducts() : fetchProducts(category);
             }, [category]
         );
 
@@ -71,13 +73,13 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
                 addItem(finalProduct, 1);
                 toggleCart();
             } catch (error) {
-                toast.error("An error occurred while adding the product to the cart")
+                toast.error("An error occurred while adding the product to the cart");
             } finally {
                 // console.log(items);
             }
         };
 
-        if (isLoading) return <div></div>
+        if (isLoading) return <div></div>;
 
         return (
             <Suspense fallback={<div></div>}>
@@ -85,10 +87,10 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
                            addToCart={HandleQuickAdd} isCartOpen={isCartOpen}/>
                 <ToastContainer position={"bottom-center"}/>
             </Suspense>
-        )
+        );
     };
 };
 
 const index = HOCWrapper(HomePage);
 
-export default index
+export default index;

@@ -1,4 +1,5 @@
 import {create} from "zustand";
+
 import ProductService from "../../services/productService.ts";
 
 interface IHomeStore {
@@ -23,7 +24,7 @@ const useHomeStore = create<IHomeStore>((set) => {
                     category,
                 }
             });
-            set({products: response})
+            set({products: response});
         } catch (error: any) {
         } finally {
             set({isLoading: false});

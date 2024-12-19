@@ -1,7 +1,9 @@
-import AppRouter from "./routes";
-import client from "./lib/appoloClient.ts";
-import {ApolloProvider} from "@apollo/client";
 import {CartProvider} from "react-use-cart";
+import {ApolloProvider} from "@apollo/client";
+
+import client from "./lib/appoloClient.ts";
+import AppRouter from "./routes";
+
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
@@ -16,5 +18,5 @@ const App = () => {
             </ApolloProvider>
         </div>
     );
-}
-export default App
+};
+export default App;

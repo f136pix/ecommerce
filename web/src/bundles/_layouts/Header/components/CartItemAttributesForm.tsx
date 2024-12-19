@@ -1,6 +1,7 @@
 import {Component} from "react";
-import {Product} from "../../../../types/product.ts";
 import {CartProviderState} from "react-use-cart";
+
+import {Product} from "../../../../types/product.ts";
 import {concatenateId} from "../../../../utils";
 
 type CartItemAttributesProps = {
@@ -39,7 +40,7 @@ class CartItemAttributesForm extends Component<CartItemAttributesProps, CartItem
 
             return {selectedValues};
         });
-    }
+    };
 
     render() {
         const {product} = this.props;

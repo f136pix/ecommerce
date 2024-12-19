@@ -1,9 +1,11 @@
 import {Component} from 'react';
-import {ICartItem} from "../../../../types/product.ts";
 import {CartProviderState} from "react-use-cart";
+
+import {ICartItem} from "../../../../types/product.ts";
+import {getSelectedValues} from "../../../../utils";
+
 import CartItemAttributesForm from "./CartItemAttributesForm.tsx";
 import CartItemQuantityForm from "./CartItemQuantityForm.tsx";
-import {getSelectedValues} from "../../../../utils";
 
 type CartItemProps = {
     item: ICartItem;
@@ -43,4 +45,4 @@ class CartItemComponent extends Component<CartItemProps> {
     }
 }
 
-export default CartItemComponent;;
+export default CartItemComponent;

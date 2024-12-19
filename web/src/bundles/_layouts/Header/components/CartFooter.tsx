@@ -1,7 +1,8 @@
 import {Component} from 'react';
-import {cn} from "../../../../utils";
 import {Item} from "react-use-cart";
+
 import {CartItem} from "../../../../types/product.ts";
+import {cn} from "../../../../utils";
 
 type CartFooterProps = {
     placeOrder: (input: CartItem[]) => Promise<void>;

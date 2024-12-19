@@ -1,7 +1,9 @@
 import {Component} from 'react';
-import {HomeProps} from "./index.tsx";
-import ProductsGrid from "./components/ProductsGrid.tsx";
+
 import {cn} from "../../utils";
+
+import ProductsGrid from "./components/ProductsGrid.tsx";
+import {HomeProps} from "./index.tsx";
 
 class HomePage extends Component<HomeProps> {
     render() {

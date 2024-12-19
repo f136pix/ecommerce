@@ -14,7 +14,7 @@ class ProductService {
 
     static async fetchProducts({fields, filter}: IFetchProductsParams) {
         if (filter?.category == undefined || filter?.category == "") {
-            delete filter?.category
+            delete filter?.category;
         }
 
         const query = GraphQLQueries.constructGetProductsQuery({fields, filter});

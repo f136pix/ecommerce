@@ -1,13 +1,14 @@
-import {clsx, type ClassValue} from "clsx"
-import {twMerge} from "tailwind-merge"
+import {type ClassValue,clsx} from "clsx";
+import {twMerge} from "tailwind-merge";
+
 import {Product} from "../types/product.ts";
 
 export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs));
 }
 
 export function concatenateId(productAttributeValueIds: string[]) {
-    return productAttributeValueIds.join('-')
+    return productAttributeValueIds.join('-');
 }
 
 export function getSelectedValues(product: Product, productAttributeValueIds: string[]) {
