@@ -1,7 +1,7 @@
-import {create} from "zustand";
+import { create } from "zustand";
 
 import ProductService from "../../services/productService.ts";
-import {Image, Product} from "../../types/product.ts";
+import { Image, Product } from "../../types/product.ts";
 
 export interface IProductStore {
     product: Product | null;
@@ -18,26 +18,26 @@ const useProductStore = create<IProductStore>((set) => ({
     product: null,
     isLoading: false,
     currentImage: null,
-    setLoading: (isLoading: boolean) => set({isLoading}),
-    setProduct: (product: Product) => set({product}),
-    setCurrentImage: (currentImage: Image) => set({currentImage}),
+    setLoading: (isLoading: boolean) => set({ isLoading }),
+    setProduct: (product: Product) => set({ product }),
+    setCurrentImage: (currentImage: Image) => set({ currentImage }),
 
     resetProduct: () => {
-        set({product: null});
+        set({ product: null });
     },
 
     fetchProduct: async (id: string) => {
         try {
-            set({isLoading: true});
+            set({ isLoading: true });
             const response = await ProductService.fetchProductById(id);
-            set({product: response});
-            set({currentImage: response?.images[0]});
+            set({ product: response });
+            set({ currentImage: response?.images[0] });
         } catch (error: any) {
             console.error(error.toString());
         } finally {
-            set({isLoading: false});
+            set({ isLoading: false });
         }
     }
 }));
 
-export {useProductStore};
+export { useProductStore };

@@ -25,7 +25,7 @@ class Header extends Component<HeaderProps> {
                             return (
                                 <Link
                                     key={index}
-                                    to={`/home/${category}`}
+                                    to={`/${category}`}
                                     className={cn(cn(navStyle, index == 0 && "ml-[7%]"),
                                         currentCategory == category ? selectedNavStyle : "cursor-pointer")}
                                     data-testid={currentCategory == category ? 'active-category-link' : 'category-link'}

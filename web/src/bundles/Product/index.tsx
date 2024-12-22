@@ -25,8 +25,8 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & ProductPagePr
 
         useEffect(() => {
             if (!id) return;
-            if (id) store.fetchProduct(id);
-        }, [id, store]);
+            store.fetchProduct(id);
+        }, [id]);
 
         const handleAddToCart = async (product: Product, productAttributeValueIds: string[]) => {
             try {

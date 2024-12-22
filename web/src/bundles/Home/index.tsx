@@ -31,14 +31,16 @@ const HOCWrapper = <P extends object>(Component: ComponentType<P & HomeProps>) =
         const {resetProduct} = useProductStore();
 
         useEffect(() => {
-            if (!category) navigate("/home/all");
+            console.log(category)
+
+            if (!category) navigate("/all");
 
             if (!categories.includes(category!.toLowerCase())) {
-                navigate("/home/all");
+                navigate("/all");
                 return;
             }
 
-            navigate(`/home/${category}`);
+            navigate(`/${category}`);
         }, [category]);
 
         useEffect(() => {

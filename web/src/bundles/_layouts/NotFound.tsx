@@ -5,7 +5,7 @@ const NotFound = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        navigate('/home/all');
+        navigate('/all');
     }, [navigate]);
 
     return null;

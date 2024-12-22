@@ -23,8 +23,6 @@ class ProductPage extends Component<ProductPageProps> {
                 <ImagesBar images={productStore.product?.images!} setCurrentImage={productStore.setCurrentImage}/>
                 <ImagesList images={productStore.product?.images!} currentImage={productStore.currentImage!} setCurrentImage={productStore.setCurrentImage}/>
                 <CartSection product={productStore.product!} addToCart={addToCart}/>
-
-
             </main>
         );
     }

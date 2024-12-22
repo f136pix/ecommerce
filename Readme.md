@@ -8,7 +8,7 @@ https://github.com/Ecodev/graphql-doctrine
 # Apache a2 Config
 
 ```xml
-<!-- /etc/apache2/sites-available/vite-app.conf -->
+<!-- /etc/apache2/sites-available/app.conf -->
 <VirtualHost *:80>
     ServerName yourdomain.com
     ServerAdmin webmaster@localhost

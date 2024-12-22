@@ -8,14 +8,15 @@ import ProductPage from "../bundles/Product/index.tsx";
 
 
 const AppRouter = () => {
-    const {isCartOpen,toggleCart } = useHeaderStore();
+    const {isCartOpen, toggleCart} = useHeaderStore();
     
     return (
         <Router>
             <Routes>
                 <Route element={<Layout isCartOpen={isCartOpen} toggleCart={toggleCart}/>}>
-                    <Route path={"home/:category"} element={<HomePage/>}/>
-                    <Route path={"product/:id"} element={<ProductPage/>}/>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/:category" element={<HomePage />} />
+                    <Route path="/product/:id" element={<ProductPage />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
