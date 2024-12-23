@@ -1,27 +1,19 @@
-https://github.com/Ecodev/graphql-doctrine
-
 # DB Schema
 
 ![img_1.png](img_1.png)
 > The dotted entities are join tables
 
-# Apache a2 Config
+## Run locally : 
+You can use the commands in the [Makefile](Makefile) to run the project locally :
 
-```xml
-<!-- /etc/apache2/sites-available/app.conf -->
-<VirtualHost *:80>
-    ServerName yourdomain.com
-    ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html
+- `make run-db` - Starts the MySQL container
+- `make migrate` - Runs database migrations and seeders
+- `make run-php` - Starts the PHP server
+- `make run-web` - Builds and serves the web application
 
-    ProxyPreserveHost On
-    ProxyPass / http://localhost:3000/
-    ProxyPassReverse / http://localhost:3000/
+## Doctrine ORM 
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-```
+Since one of the main goals was showcasing OOP, i decided using an ORM to provide data abstractions
 
 ## GraphQL Requests
 
@@ -86,8 +78,25 @@ mutation {
     status
   }
 }
-```
 
+```
+# Apache a2 Config
+
+```xml
+<!-- /etc/apache2/sites-available/app.conf -->
+<VirtualHost *:80>
+    ServerName yourdomain.com
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:3000/
+    ProxyPassReverse / http://localhost:3000/
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
 
 
 

@@ -22,6 +22,7 @@ class GetProductAttributesResolver implements GraphQLResolver
         try {
             $productId = $args['productId'] ?? throw new PublicException("Product ID is required");
 
+            // Using joins to avoid n + 1 db queries afterwards
             $qb = $this->entityManager->createQueryBuilder();
             $qb->select('pav', 'av', 'attributeSet')
                 ->from(ProductAttributeValue::class, 'pav')
