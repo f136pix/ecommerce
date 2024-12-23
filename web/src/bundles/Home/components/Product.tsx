@@ -1,8 +1,10 @@
-import {Component} from "react";
+import {Component, useEffect} from "react";
 
 import AddToCartIcon from "../../../assets/icons/AddCartIcon.png";
 import {Product as productType} from "../../../types/product.ts";
 
+// import kebabCase from 'kebab-case';
+import kebabCase from 'just-kebab-case';
 type IProductProps = {
     product: productType,
     addToCart: (product: productType) => void,
@@ -18,7 +20,7 @@ class Product extends Component<IProductProps> {
         return (
             <div
                 className={`bg-transparent overflow-hidden p-4 hover:shadow-2xl transition-all group`}
-                data-testid={`product-${product.name}`}
+                data-testid={`product-${kebabCase(product.name.toLowerCase())}`}
             >
                 <div className="relative cursor-pointer"
                      onClick={() => navigate(`/product/${product.id}`)}>

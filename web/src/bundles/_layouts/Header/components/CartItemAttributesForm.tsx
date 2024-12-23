@@ -70,7 +70,7 @@ class CartItemAttributesForm extends Component<CartItemAttributesProps, CartItem
                                         value={attributeValue.value}
                                         checked={selectedValues[attribute.name] === attributeValue.id}
                                         onChange={() => this.handleSelect(attribute.name, attributeValue.id)}
-                                        className="absolute w-full h-full opacity-0 cursor-pointer"
+                                        className="absolute w-full h-full opacity-0 cursor-pointer z-50"
                                     />
                                     <div
                                         className={`flex items-center justify-center ${selectedValues[attribute.name] === attributeValue.id && attribute.name === "Color"
@@ -87,7 +87,7 @@ class CartItemAttributesForm extends Component<CartItemAttributesProps, CartItem
                                     >
                                         {attribute.name !== "Color" && (
                                             <span
-                                                className="absolute inset-0 flex items-center justify-center font-normal">
+                                                className="absolute inset-0 flex items-center justify-center font-normal pointer-events-none">
                                                 {attributeValue.value}
                                             </span>
                                         )}

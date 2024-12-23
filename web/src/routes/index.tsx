@@ -14,7 +14,6 @@ const AppRouter = () => {
         <Router>
             <Routes>
                 <Route element={<Layout isCartOpen={isCartOpen} toggleCart={toggleCart}/>}>
-                    <Route path="/" element={<HomePage />} />
                     <Route path="/:category" element={<HomePage />} />
                     <Route path="/product/:id" element={<ProductPage />} />
                     <Route path="*" element={<NotFound />} />

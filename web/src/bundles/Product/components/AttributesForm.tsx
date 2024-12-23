@@ -51,7 +51,7 @@ class AttributesForm extends Component<AttributeRadioProps, IAttributesFormProps
                     <div
                         key={attribute.name}
                         className={"mb-8"}
-                        data-testid={`product-attribute-${attribute.name}`}>
+                        data-testid={`product-attribute-${attribute.name.toLowerCase()}`}>
                         <h3 className={"font-bold uppercase text-sm mb-1"}>{attribute.name + ":"}</h3>
                         <div className={"flex"}>
                             {attribute.values.map((attributeValue) => (
@@ -62,7 +62,8 @@ class AttributesForm extends Component<AttributeRadioProps, IAttributesFormProps
                                         value={attributeValue.value}
                                         checked={selectedValues[attribute.name] === attributeValue.value}
                                         onChange={() => this.handleSelect(attribute.name, attributeValue.id)}
-                                        className="absolute w-full h-full opacity-0 cursor-pointer"
+                                        className="absolute w-full h-full opacity-0 cursor-pointer z-50"
+                                        data-testid={`product-attribute-${attribute.name.toLowerCase()}-${attributeValue.value}`}
                                     />
                                     <div
                                         className={
@@ -83,7 +84,7 @@ class AttributesForm extends Component<AttributeRadioProps, IAttributesFormProps
                                     >
                                         {attribute.name !== "Color" && (
                                             <span
-                                                className="absolute inset-0 flex items-center justify-center font-normal">
+                                                className="absolute inset-0 flex items-center justify-center font-normal pointer-events-none">
                                                 {attributeValue.value}
                                             </span>
                                         )}

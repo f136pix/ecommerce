@@ -1,4 +1,4 @@
-import { ComponentType } from 'react';
+import { ComponentType, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { CartProviderState, useCart } from "react-use-cart";
 
@@ -20,6 +20,11 @@ const HOCWrapper = <P extends HeaderProps>(Component: ComponentType<P>) => {
         const { category } = useParams<{ category: string }>();
         const headerStore = useHeaderStore();
         const cartStore = useCart();
+
+        useEffect(() => {
+            console.log(cartStore.items)
+
+        }, []);
 
         const handlePlaceOrder = async (input: CartItem[]) => {
             try {
