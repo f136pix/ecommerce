@@ -30,6 +30,7 @@ class CreateOrderResolver implements GraphQLResolver
             $order = new OrderEntity();
             $this->entityManager->persist($order);
 
+            // extracting all the product attribute values ids
             $productAttributeValueIds = [];
             foreach ($orderItemsInput as $orderItemInput) {
                 $productAttributeValueIds =

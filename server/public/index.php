@@ -4,15 +4,19 @@ ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../src/Infraestructure/Persistence/doctrine.php';
+require_once __DIR__ . '/../src/Infraestructure/Persistence/Context.php';
 
-use App\Application\Exceptions\PublicException;
+//use App\Application\Exceptions\PublicException;
+use App\Infraestructure\Persistence\Context;
 use App\Presentation\GraphQL;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-$entityManager = require __DIR__ . '/../src/Infraestructure/Persistence/doctrine.php';
+// Better using a DI container / injection
+//$entityManager = require __DIR__ . '/../src/Infraestructure/Persistence/Context.php';
+
+$entityManager = Context::getContext();
 
 $graphql = new GraphQL($entityManager);
 

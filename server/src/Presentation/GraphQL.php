@@ -43,7 +43,6 @@ class GraphQL
 
     public function handle()
     {
-
         try {
             $schemaBuilder = new GraphQLSchemaBuilder();
             $schemaBuilder

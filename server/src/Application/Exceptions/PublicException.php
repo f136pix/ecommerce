@@ -6,7 +6,7 @@ use Exception;
 
 class PublicException extends Exception
 {
-    private string $publicMessage;
+    protected string $publicMessage;
 
     public function __construct(string $publicMessage, int $code = 0, Exception $previous = null)
     {

@@ -6,6 +6,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
 
+// Helper function for builduing schemas
 class GraphQLSchemaBuilder
 {
     private array $queryFields = [];

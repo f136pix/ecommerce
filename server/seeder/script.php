@@ -8,7 +8,7 @@ use App\Domain\ProductsAggregate\Product;
 use App\Domain\ProductsAggregate\ProductAttributeValue;
 use App\Domain\ProductsAggregate\ProductImage;
 
-$entityManager = require __DIR__ . '/../src/Infraestructure/Persistence/doctrine.php';
+$entityManager = require __DIR__ . '/../src/Infraestructure/Persistence/Context.php';
 
 $jsonData = file_get_contents(__DIR__ . '/data.json');
 $data = json_decode($jsonData, true);

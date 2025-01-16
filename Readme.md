@@ -12,7 +12,6 @@ You can use the commands in the [Makefile](Makefile) to run the project locally 
 - `make run-web` - Builds and serves the web application
 
 ## Doctrine ORM 
-
 Since one of the main goals was showcasing OOP, i decided using an ORM to provide data abstractions
 
 ## GraphQL Requests
